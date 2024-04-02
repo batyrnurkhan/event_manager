@@ -1,0 +1,48 @@
+<!-- event_manager/templates/event_manager/home.html -->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Home</title>
+</head>
+<body>
+     <h1>Welcome to the Home Page</h1>
+    {% if user.is_authenticated %}
+        <p>Hi {{ user.username }}</p>
+<form action="{% url 'logout' %}" method="post" style="display: inline;">
+    {% csrf_token %}
+    <button type="submit" style="background: none; border: none; padding: 0; cursor: pointer; color: blue; text-decoration: underline;">
+        Sign out
+    </button>
+</form>
+     {% else %}
+        <p>Hi UNKNOWN</p>
+        <a href="{% url 'accounts:signin' %}">Sign in</a>
+    {% endif %}
+
+    <div class="events">
+        {% for event in events %}
+            <div class="event">
+                <h2>{{ event.event_name }}</h2>
+                <p>{{ event.event_description }}</p>
+                <p>Sponsored by: {{ event.event_sponsor }}</p>
+                <p>Budget: ${{ event.event_budget }}</p>
+                <p>Participants: {{ event.event_count_participants }}</p>
+                <p>Tickets left: {{ event.tickets_left }}</p>
+                {% if user.is_authenticated and not event.event_sold_out %}
+                <form method="post" action="{% url 'events:join_event' slug=event.event_slug %}">
+                        {% csrf_token %}
+                        <button type="submit">Join Event</button>
+                    </form>
+                {% else %}
+                    <p>This event is sold out.</p>
+                {% endif %}
+            </div>
+        {% empty %}
+            <p>No events available at the moment.</p>
+        {% endfor %}
+    </div>
+
+
+</body>
+</html>

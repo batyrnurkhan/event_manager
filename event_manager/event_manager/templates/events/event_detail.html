@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ event.event_name }}</title>
+</head>
+<body>
+    <h1>{{ event.event_name }}</h1>
+    <p>{{ event.event_description }}</p>
+    <p>Sponsored by: {{ event.event_sponsor }}</p>
+    <p>Budget: ${{ event.event_budget }}</p>
+    <p>Participants: {{ event.event_count_participants }}</p>
+<p>Tickets left: {{ tickets_left }}</p>
+
+    {% if user.is_authenticated %}
+    {% if user in event.participants.all %}
+        <p>You have already joined this event.</p>
+    {% elif event.event_sold_out %}
+        <p>This event is sold out.</p>
+    {% else %}
+        <form method="post" action="{% url 'events:join_event' slug=event.event_slug %}">
+            {% csrf_token %}
+            <button type="submit">Join Event</button>
+        </form>
+    {% endif %}
+{% else %}
+        <p>Please <a href="{% url 'signin' %}">sign in</a> to join the event.</p>
+    {% endif %}
+
+    {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+                <li>{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+<a href="{% url 'events:all_events' %}">Back to all events</a>
+</body>
+</html>

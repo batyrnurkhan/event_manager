@@ -1,0 +1,105 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ event.event_name }} Admin Dashboard{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>{{ event.event_name }} - Admin Dashboard</h1>
+
+    <div class="row">
+        <div class="col-md-6">
+            <h2>Tickets Overview</h2>
+            <canvas id="ticketsOverviewChart"></canvas>
+        </div>
+        <div class="col-md-6">
+            <h2>Financial Overview</h2>
+            <canvas id="financialOverviewChart"></canvas>
+        </div>
+        <div class="col-md-12">
+            <h2>Participants</h2>
+            <form method="get" action=".">
+                {{ search_form }}
+                <button type="submit">Search</button>
+            </form>
+            <ul>
+                {% for user in user_search_results %}
+                <li>
+                    {{ user.username }}
+                    <a href="{% url 'add_participant' event_slug=event.event_slug user_id=user.id %}">Add as participant</a>
+                </li>
+                {% endfor %}
+            </ul>
+            <ul>
+                {% for user in participants %}
+                <li>
+                    {{ user.username }}
+                    <a href="{% url 'remove_participant' event_slug=event.event_slug user_id=user.id %}">Remove</a>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const ticketsCtx = document.getElementById('ticketsOverviewChart').getContext('2d');
+    const ticketsChart = new Chart(ticketsCtx, {
+        type: 'bar',
+        data: {
+            labels: ['Total Tickets', 'Tickets Sold'],
+            datasets: [{
+                label: 'Tickets Data',
+                data: [{{ event.event_tickets }}, {{ total_sold }}],
+                backgroundColor: [
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 206, 86, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+
+    const financialCtx = document.getElementById('financialOverviewChart').getContext('2d');
+    const financialChart = new Chart(financialCtx, {
+        type: 'bar',
+        data: {
+            labels: ['Total Earnings', 'Event Budget'],
+            datasets: [{
+                label: 'Financial Data',
+                data: [{{ total_earnings }}, {{ event.event_budget }}],
+                backgroundColor: [
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(255, 99, 132, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(255, 99, 132, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+});
+</script>
+{% endblock %}

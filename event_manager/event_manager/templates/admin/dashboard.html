@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <!-- Sidebar with Event Names -->
+        <div class="col-md-4">
+            <h3>Events</h3>
+            <div class="list-group">
+                {% for event in events %}
+                <a href="{% url 'event_admin_dashboard' event.event_slug %}" class="list-group-item list-group-item-action">
+                    {{ event.event_name }}
+                </a>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Main Content with Graph -->
+        <div class="col-md-8">
+            <h3>Today's Ticket Sales</h3>
+            <canvas id="todaySalesGraph"></canvas>
+        </div>
+
+
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const totalSalesToday = {{ total_tickets_sold_today }};
+    const salesData = new Array(24).fill(0);  // Create an array for 24 hours, filled with 0
+    salesData[new Date().getHours()] = totalSalesToday;  // Assume all sales happened in the current hour
+
+    const ctx = document.getElementById('todaySalesGraph').getContext('2d');
+    const todaySalesGraph = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: Array.from({length: 24}, (_, i) => i + ':00'),  // Labels for each hour
+            datasets: [{
+                label: 'Tickets Sold Today',
+                data: salesData,  // Use the sales data
+                backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                borderColor: 'rgba(54, 162, 235, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+});
+</script>
+{% endblock %}
