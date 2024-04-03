@@ -3,6 +3,8 @@ from django.template.defaultfilters import slugify
 from django.contrib.auth.models import User
 from django.db.models.signals import pre_save
 from django.dispatch import receiver
+from django.utils import timezone
+from django.conf import settings
 
 
 class Event(models.Model):
@@ -15,9 +17,14 @@ class Event(models.Model):
     event_tickets = models.PositiveIntegerField()
     event_sold_tickets = models.PositiveIntegerField(default=0)
     event_sold_out = models.BooleanField(default=False)
-    event_organizer = models.ForeignKey(User, on_delete=models.CASCADE, related_name='organized_events')
-    participants = models.ManyToManyField(User, related_name='joined_events', blank=True, through='Participant')
+    event_organizer = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE,
+                                        related_name='organized_events')
+    participants = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='joined_events', blank=True,
+                                          through='Participant')
     ticket_cost = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+    event_image = models.ImageField(upload_to='events_images/', default='events_images/defaulteventlogo.jpg')
+    venue = models.CharField(max_length=255, default='Online')
+    start_date = models.DateTimeField(default=timezone.now)
 
     def save(self, *args, **kwargs):
         if not self.event_slug:
@@ -51,7 +58,7 @@ class Event(models.Model):
 
 
 class Participant(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     event = models.ForeignKey(Event, on_delete=models.CASCADE)
     date_joined = models.DateTimeField(auto_now_add=True)
 

@@ -72,21 +72,26 @@
         <div class="row">
             <div class="col-md-3 col-lg-2 sidebar">
                 <div class="list-group">
-                    {% for event in events %}
-                        <a href="{% url 'event_admin_dashboard' event.event_slug %}" class="list-group-item list-group-item-action">
-                            {{ event.event_name }}
-                        </a>
-                    {% endfor %}
+                    <div class="dropdown">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" id="clientManagementDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Client Management
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="clientManagementDropdown">
+                            <a class="dropdown-item" href="{% url 'accounts:client_list' %}">Client List</a>
+        <a class="dropdown-item" href="{% url 'accounts:client_add' %}">Add New Client</a>
+        <a class="dropdown-item" href="{% url 'accounts:user_list' %}">User List</a>
+                        </div>
+                    </div>
                 </div>
             </div>
             {% block content %}
-            <!-- Your content blocks will be here -->
             {% endblock %}
         </div>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script> <!-- Popper.js -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
 </body>
 </html>

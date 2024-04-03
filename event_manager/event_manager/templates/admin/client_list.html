@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Clients List</h2>
+<ul>
+    {% for client in clients %}
+    <li>
+        {{ client.user.get_full_name }} - {{ client.email }}
+        <a href="{% url 'accounts:client_detail' client.pk %}">Details</a> |
+        <a href="{% url 'accounts:client_edit' client.pk %}">Edit</a> |
+        <a href="{% url 'accounts:client_delete' client.pk %}">Delete</a>
+    </li>
+    {% empty %}
+    <li>No clients available.</li>
+    {% endfor %}
+</ul>
+<a href="{% url 'accounts:client_add' %}">Add New Client</a>
+{% endblock %}

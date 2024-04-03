@@ -16,8 +16,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.contrib.auth.views import LogoutView
-from django.urls import path, include
 from .views import home, GetLogoutView, dashboard, event_admin_dashboard, remove_participant, add_participant
+from django.conf import settings
+from django.conf.urls.static import static
+from django.urls import path, include
 
 app_name = "manager"
 
@@ -38,4 +40,4 @@ urlpatterns = [
     path('dashboard/<slug:event_slug>/remove-participant/<int:user_id>/', remove_participant, name='remove_participant'),
     path('event/<slug:event_slug>/add-participant/<int:user_id>/', add_participant, name='add_participant'),
 
-]
+]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

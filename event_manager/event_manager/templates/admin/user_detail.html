@@ -1,0 +1,10 @@
+{% extends 'base_general.html' %}
+
+{% block content %}
+<h2>User Detail</h2>
+<p>Name: {{ user.get_full_name }}</p>
+<p>Email: {{ user.email }}</p>
+<p>Phone: {{ user.phone }}</p>
+<!-- Add any other user details you wish to display -->
+<a href="{% url 'accounts:user_list' %}">Back to List</a>
+{% endblock %}

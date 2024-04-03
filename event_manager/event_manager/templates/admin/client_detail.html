@@ -1,0 +1,10 @@
+{% extends 'base_general.html' %}
+
+{% block content %}
+<h2>Client Detail</h2>
+<p>Name: {{ client.user.get_full_name }}</p>
+<p>Email: {{ client.email }}</p>
+<p>Phone: {{ client.user.phone }}</p>
+<!-- Add any other client details you wish to display -->
+<a href="{% url 'accounts:client_list' %}">Back to List</a>
+{% endblock %}

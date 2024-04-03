@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-(gdt6p^mmidz1bkk7i1q0e!mm3^-r4nbmwz@e4_y=jcs25-96w
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -140,3 +140,11 @@ EMAIL_HOST_PASSWORD = 'hmqm tvfw xonf zbje'  # Use your Gmail password or app pa
 
 
 SITE_ID = 1
+
+LOGIN_REDIRECT_URL = '/'
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
+
+
+AUTH_USER_MODEL = 'accounts.CustomUser'

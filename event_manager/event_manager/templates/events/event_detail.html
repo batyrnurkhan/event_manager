@@ -1,40 +1,91 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>{{ event.event_name }}</title>
-</head>
-<body>
-    <h1>{{ event.event_name }}</h1>
-    <p>{{ event.event_description }}</p>
-    <p>Sponsored by: {{ event.event_sponsor }}</p>
-    <p>Budget: ${{ event.event_budget }}</p>
-    <p>Participants: {{ event.event_count_participants }}</p>
-<p>Tickets left: {{ tickets_left }}</p>
+{% extends 'base_general.html' %}
+
+{% block title %}{{ event.event_name }}{% endblock %}
+
+{% block content %}
+<div class="event-detail mt-5">
+    <img src="{{ event.event_image.url }}" alt="Event Image">
+    <div class="header mb-4">
+        <h1 class="text-primary">{{ event.event_name }}</h1>
+        <h5 class="text-secondary">Sponsored by: {{ event.event_sponsor }}</h5>
+    </div>
+    <p class="description">{{ event.event_description }}</p>
+    <div class="meta-info my-4">
+        <p><strong>Budget:</strong> ${{ event.event_budget }}</p>
+        <p><strong>Participants:</strong> {{ event.event_count_participants }}</p>
+        <p><strong>Tickets left:</strong> {{ tickets_left }}</p>
+    </div>
 
     {% if user.is_authenticated %}
-    {% if user in event.participants.all %}
-        <p>You have already joined this event.</p>
-    {% elif event.event_sold_out %}
-        <p>This event is sold out.</p>
+        {% if user in event.participants.all %}
+            <p class="alert alert-success">You have already joined this event.</p>
+        {% elif event.event_sold_out %}
+            <p class="alert alert-warning">This event is sold out.</p>
+        {% else %}
+            <form method="post" action="{% url 'events:join_event' slug=event.event_slug %}">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-primary">Join Event</button>
+            </form>
+        {% endif %}
     {% else %}
-        <form method="post" action="{% url 'events:join_event' slug=event.event_slug %}">
-            {% csrf_token %}
-            <button type="submit">Join Event</button>
-        </form>
+        <p>Please <a class="btn btn-link" href="{% url 'accounts:signin' %}">sign in</a> to join the event.</p>
     {% endif %}
-{% else %}
-        <p>Please <a href="{% url 'signin' %}">sign in</a> to join the event.</p>
-    {% endif %}
+    <div class="mt-4">
+        <a href="{% url 'events:all_events' %}" class="btn btn-outline-secondary">Back to all events</a>
+    </div>
+</div>
+{% endblock %}
 
-    {% if messages %}
-        <ul class="messages">
-            {% for message in messages %}
-                <li>{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-            {% endfor %}
-        </ul>
-    {% endif %}
-
-<a href="{% url 'events:all_events' %}">Back to all events</a>
-</body>
-</html>
+{% block additional_css %}
+<style>
+    .event-detail {
+        background-color: var(--secondary-color);
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0,0,0,.1);
+    }
+    .header h1 {
+        font-weight: 700;
+    }
+    .header h5 {
+        font-weight: 500;
+    }
+    .description {
+        font-size: 1.1rem;
+        line-height: 1.6;
+    }
+    .meta-info p {
+        font-size: 1rem;
+        margin-bottom: 10px;
+    }
+    .btn-primary {
+        color: #fff;
+        background-color: var(--primary-color);
+        border-color: var(--primary-color);
+    }
+    .btn-primary:hover {
+        background-color: darken(var(--primary-color), 10%);
+        border-color: darken(var(--primary-color), 10%);
+    }
+    .btn-outline-secondary {
+        border-color: var(--primary-color);
+        color: var(--primary-color);
+    }
+    .btn-outline-secondary:hover {
+        background-color: var(--primary-color);
+        color: #fff;
+    }
+    .btn-link {
+        font-weight: 600;
+        color: var(--primary-color);
+        text-decoration: none;
+    }
+    .btn-link:hover {
+        text-decoration: underline;
+    }
+    .alert {
+        padding: 10px;
+        border-radius: 5px;
+    }
+</style>
+{% endblock %}

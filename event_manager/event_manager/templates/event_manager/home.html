@@ -1,48 +1,40 @@
-<!-- event_manager/templates/event_manager/home.html -->
+{% extends 'base_general.html' %}
 
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Home</title>
-</head>
-<body>
-     <h1>Welcome to the Home Page</h1>
-    {% if user.is_authenticated %}
-        <p>Hi {{ user.username }}</p>
-<form action="{% url 'logout' %}" method="post" style="display: inline;">
-    {% csrf_token %}
-    <button type="submit" style="background: none; border: none; padding: 0; cursor: pointer; color: blue; text-decoration: underline;">
-        Sign out
-    </button>
-</form>
-     {% else %}
-        <p>Hi UNKNOWN</p>
-        <a href="{% url 'accounts:signin' %}">Sign in</a>
-    {% endif %}
+{% block title %}Home{% endblock %}
 
-    <div class="events">
+{% block content %}
+<div class="mt-5">
+    <h1 class="text-center mb-4">Welcome to the Event Platform</h1>
+    <div class="row">
         {% for event in events %}
-            <div class="event">
-                <h2>{{ event.event_name }}</h2>
-                <p>{{ event.event_description }}</p>
-                <p>Sponsored by: {{ event.event_sponsor }}</p>
-                <p>Budget: ${{ event.event_budget }}</p>
-                <p>Participants: {{ event.event_count_participants }}</p>
-                <p>Tickets left: {{ event.tickets_left }}</p>
-                {% if user.is_authenticated and not event.event_sold_out %}
-                <form method="post" action="{% url 'events:join_event' slug=event.event_slug %}">
-                        {% csrf_token %}
-                        <button type="submit">Join Event</button>
-                    </form>
-                {% else %}
-                    <p>This event is sold out.</p>
-                {% endif %}
+            <div class="col-md-4 mb-4">
+                <div class="card h-100 event-card">
+                    <div class="card-body">
+                        <h2 class="card-title">{{ event.event_name }}</h2>
+                        <p class="card-text">{{ event.event_description }}</p>
+                        <p class="card-text">Sponsored by: <strong>{{ event.event_sponsor }}</strong></p>
+                        <p class="card-text">Budget: <strong>${{ event.event_budget }}</strong></p>
+                        <p class="card-text">Participants: <strong>{{ event.event_count_participants }}</strong></p>
+                        <p class="card-text">Tickets left: <strong>{{ event.tickets_left }}</strong></p>
+                    </div>
+                    <div class="card-footer">
+                        {% if user.is_authenticated %}
+                            {% if user in event.participants.all %}
+                                <p class="text-success">You got a ticket!</p>
+                            {% else %}
+                                <form method="post" action="{% url 'events:join_event' slug=event.event_slug %}">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-primary">Join Event</button>
+                                </form>
+                            {% endif %}
+                        {% endif %}
+                        <a href="{% url 'events:event_detail' event.event_slug %}" class="btn btn-secondary">Details</a>
+                    </div>
+                </div>
             </div>
         {% empty %}
-            <p>No events available at the moment.</p>
+            <p class="text-center">No events available at the moment.</p>
         {% endfor %}
     </div>
-
-
-</body>
-</html>
+</div>
+{% endblock %}
