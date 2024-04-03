@@ -27,9 +27,48 @@ def event_detail(request, slug):
     }
     return render(request, 'events/event_detail.html', context)
 
-
-class AddEventView(CreateView):
+##########################
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.urls import reverse_lazy
+from django.views.generic.edit import CreateView
+from .models import Event
+from .forms import EventForm
+class AddEventView(LoginRequiredMixin, CreateView):
     model = Event
     form_class = EventForm
-    template_name = 'events/add_event.html'  # Template to render the form
-    success_url = '/'
+    template_name = 'events/dashboard_event_form.html'
+    success_url = reverse_lazy('events:dashboard_event_list')  # Adjust this to your actual success URL
+
+    def form_valid(self, form):
+        form.instance.event_organizer = self.request.user  # Set the organizer to the current user
+        return super().form_valid(form)
+
+from django.views.generic import ListView
+from .models import Event
+
+class DashboardEventListView(ListView):
+    model = Event
+    template_name = 'events/dashboard_event_list.html'
+    context_object_name = 'events'
+
+
+from django.views.generic import DetailView
+from django.urls import reverse_lazy
+from django.views.generic.edit import DeleteView, UpdateView
+from .forms import EventForm  # Ensure you have created an EventForm as previously discussed
+
+class DashboardEventDetailView(DetailView):
+    model = Event
+    template_name = 'events/dashboard_event_detail.html'
+    context_object_name = 'event'
+
+class DashboardEventDeleteView(DeleteView):
+    model = Event
+    success_url = reverse_lazy('events:dashboard_event_list')
+    template_name = 'events/dashboard_event_confirm_delete.html'
+
+class DashboardEventUpdateView(UpdateView):
+    model = Event
+    form_class = EventForm
+    template_name = 'events/dashboard_event_form.html'
+    success_url = reverse_lazy('events:dashboard_event_list')

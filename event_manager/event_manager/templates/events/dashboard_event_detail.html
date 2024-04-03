@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>{{ event.event_name }}</h2>
+    <!-- Display event details -->
+    <p>{{ event.event_description }}</p>
+    <!-- Add Edit and Delete buttons -->
+    <a href="{% url 'events:dashboard_event_edit' event.pk %}" class="btn btn-primary">Edit</a>
+    <a href="{% url 'events:dashboard_event_delete' event.pk %}" class="btn btn-danger">Delete</a>
+</div>
+{% endblock %}
