@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <h2>Список ресурсов</h2>
+    <form method="get">
+        <input type="text" name="q" placeholder="Поиск по имени...">
+        <button type="submit">Поиск</button>
+    </form>
+    <ul>
+        {% for resource in resources %}
+            <li><a href="{% url 'event_resource:edit_resource' resource.resource_id %}">{{ resource.name }}</a> - {{ resource.quantity }}</li>
+        {% endfor %}
+    </ul>
+{% endblock %}
+

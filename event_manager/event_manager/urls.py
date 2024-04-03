@@ -34,6 +34,7 @@ urlpatterns = [
     path('accounts/', include('accounts.urls')),
     path('accounts/signout/', GetLogoutView.as_view(), name='logout'),
     path('events/', include('events.urls')),
+    path('event_resource/', include('event_resource.urls')),
     path('', home, name='home'),
     path('dashboard/', dashboard, name='dashboard'),
     path('dashboard/<slug:slug>/', event_admin_dashboard, name='event_admin_dashboard'),

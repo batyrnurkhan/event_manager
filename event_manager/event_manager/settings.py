@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'accounts',
     'event_manager',
     'events',
+    'event_resource',
 
 ]
 

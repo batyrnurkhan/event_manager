@@ -82,6 +82,15 @@
         <a class="dropdown-item" href="{% url 'accounts:user_list' %}">User List</a>
                         </div>
                     </div>
+                    <div class="dropdown">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" id="clientManagementDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Resource Management
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="clientManagementDropdown">
+        <a class="dropdown-item" href="{% url 'event_resource:add_resource' %}">Add New Resource</a>
+        <a class="dropdown-item" href="{% url 'event_resource:resource_list' %}">Resource List</a>
+                        </div>
+                    </div>
 
                     <div class="dropdown">
             <button class="btn btn-secondary dropdown-toggle" type="button" id="eventsManagementDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
