@@ -1,6 +1,9 @@
 from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
+from django.views.generic import CreateView
+
+from .forms import EventForm
 from .models import Event
 from django.contrib import messages
 
@@ -25,3 +28,8 @@ def event_detail(request, slug):
     return render(request, 'events/event_detail.html', context)
 
 
+class AddEventView(CreateView):
+    model = Event
+    form_class = EventForm
+    template_name = 'events/add_event.html'  # Template to render the form
+    success_url = '/'
