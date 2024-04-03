@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <h2>Details for {{ superuser.username }}</h2>
+    <p>Email: {{ superuser.email }}</p>
+    <!-- Display more details as needed -->
+    <a href="{% url 'accounts:edit_admin' superuser.pk %}" class="btn btn-primary">Edit Admin</a>
+</div>
+{% endblock %}

@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
 from django.core.mail import send_mail
-from .forms import SignUpForm, ClientForm
+from .forms import SignUpForm, ClientForm, AdminCreationForm
 from django import forms
 from django.contrib.auth.models import User
 from django.views.generic.edit import UpdateView
@@ -62,7 +62,7 @@ class ClientCreateView(CreateView):
     model = Client
     form_class = ClientForm
     template_name = 'admin/client_form.html'
-    success_url = '/clients/'  # Adjust the URL as needed
+    success_url = '/accounts/clients/'  # Adjust the URL as needed
 
 class ClientDetailView(DetailView):
     model = Client
@@ -88,4 +88,33 @@ from django.urls import reverse_lazy
 class ClientDeleteView(DeleteView):
     model = Client
     template_name = 'admin/client_confirm_delete.html'
-    success_url = reverse_lazy('client_list')
+    success_url = reverse_lazy('accounts:client_list')
+
+class SuperuserListView(ListView):
+    model = CustomUser
+    template_name = 'admin/superuser_list.html'
+    context_object_name = 'superusers'
+
+    def get_queryset(self):
+        return CustomUser.objects.filter(is_superuser=True)
+
+
+class SuperuserDetailView(DetailView):
+    model = CustomUser
+    template_name = 'admin/superuser_detail.html'
+    context_object_name = 'superuser'
+    queryset = CustomUser.objects.filter(is_superuser=True)
+
+
+class AddAdminView(CreateView):
+    form_class = AdminCreationForm
+    template_name = 'admin/add_admin.html'
+    success_url = reverse_lazy('accounts:superuser_list')
+
+
+
+class EditAdminView(UpdateView):
+    model = CustomUser
+    form_class = AdminCreationForm  # You might need a slightly modified form for editing
+    template_name = 'admin/edit_admin.html'
+    success_url = reverse_lazy('accounts:superuser_list')

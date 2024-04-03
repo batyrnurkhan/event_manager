@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'event_manager',
     'events',
     'event_resource',
+    'suppliers',
 
 ]
 

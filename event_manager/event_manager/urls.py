@@ -32,6 +32,7 @@ class SignOutView(LogoutView):
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('accounts.urls')),
+    path('suppliers/', include('suppliers.urls')),
     path('accounts/signout/', GetLogoutView.as_view(), name='logout'),
     path('events/', include('events.urls')),
     path('event_resource/', include('event_resource.urls')),

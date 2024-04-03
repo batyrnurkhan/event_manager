@@ -72,18 +72,17 @@
         <div class="row">
             <div class="col-md-3 col-lg-2 sidebar">
                 <div class="list-group">
-                    <div class="dropdown">
+                    <div class="dropdown" style="margin-bottom: 10px">
                         <button class="btn btn-secondary dropdown-toggle" type="button" id="clientManagementDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Client Management
                         </button>
                         <div class="dropdown-menu" aria-labelledby="clientManagementDropdown">
                             <a class="dropdown-item" href="{% url 'accounts:client_list' %}">Client List</a>
-        <a class="dropdown-item" href="{% url 'accounts:client_add' %}">Add New Client</a>
         <a class="dropdown-item" href="{% url 'accounts:user_list' %}">User List</a>
                         </div>
                     </div>
-                    <div class="dropdown">
-                        <button class="btn btn-secondary dropdown-toggle" type="button" id="clientManagementDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <div class="dropdown" style="margin-bottom: 10px">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" id="resourceManagementDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Resource Management
                         </button>
                         <div class="dropdown-menu" aria-labelledby="clientManagementDropdown">
@@ -91,8 +90,7 @@
         <a class="dropdown-item" href="{% url 'event_resource:resource_list' %}">Resource List</a>
                         </div>
                     </div>
-
-                    <div class="dropdown">
+                    <div class="dropdown" style="margin-bottom: 10px">
             <button class="btn btn-secondary dropdown-toggle" type="button" id="eventsManagementDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 Events Management
             </button>
@@ -101,8 +99,26 @@
                 <a class="dropdown-item" href="{% url 'events:add_event' %}">Add New Event</a>
             </div>
         </div>
+                    <div class="dropdown" style="margin-bottom: 10px">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="adminManagementDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Admin Management
+            </button>
+            <div class="dropdown-menu" aria-labelledby="eventsManagementDropdown">
+          <a class="dropdown-item" href="{% url 'accounts:superuser_list' %}">List Superusers</a>
+          <a class="dropdown-item" href="{% url 'accounts:add_admin' %}">Add New Admin</a>
 
+            </div>
+                    </div>
 
+                    <div class="dropdown" style="margin-bottom: 10px">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" id="supplierManagementDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Supplier Management
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="eventsManagementDropdown">
+                            <a class="dropdown-item" href="{% url 'suppliers:suppliers_list' %}">List Suppliers</a>
+
+                        </div>
+                    </div>
                 </div>
             </div>
             {% block content %}

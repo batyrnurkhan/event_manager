@@ -43,3 +43,26 @@ class ClientForm(forms.ModelForm):
             instance.save()
             self.save_m2m()  # In case there are many-to-many fields to save
         return instance
+
+
+from django.contrib.auth.models import Permission
+
+class AdminCreationForm(UserCreationForm):
+    permissions = forms.ModelMultipleChoiceField(
+        queryset=Permission.objects.all(),
+        widget=forms.CheckboxSelectMultiple,
+        required=False
+    )
+
+    class Meta:
+        model = CustomUser
+        fields = ['username', 'email', 'is_superuser', 'permissions']
+
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        user.is_staff = True  # Assuming you want admins to also be staff
+        user.is_superuser = self.cleaned_data['is_superuser']
+        if commit:
+            user.save()
+            user.user_permissions.set(self.cleaned_data['permissions'])
+        return user

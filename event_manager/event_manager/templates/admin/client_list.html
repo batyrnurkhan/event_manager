@@ -1,18 +1,24 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h2>Clients List</h2>
-<ul>
-    {% for client in clients %}
-    <li>
-        {{ client.user.get_full_name }} - {{ client.email }}
-        <a href="{% url 'accounts:client_detail' client.pk %}">Details</a> |
-        <a href="{% url 'accounts:client_edit' client.pk %}">Edit</a> |
-        <a href="{% url 'accounts:client_delete' client.pk %}">Delete</a>
-    </li>
-    {% empty %}
-    <li>No clients available.</li>
-    {% endfor %}
-</ul>
-<a href="{% url 'accounts:client_add' %}">Add New Client</a>
+<div class="container mt-5">
+    <h2>Clients List</h2>
+    {% if clients %}
+    <div class="list-group">
+        {% for client in clients %}
+        <a href="{% url 'accounts:client_detail' client.pk %}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+            {{ client.user.get_full_name }} - {{ client.email }}
+            <span>
+                <a href="{% url 'accounts:client_detail' client.pk %}" class="btn btn-info btn-sm">Details</a>
+                <a href="{% url 'accounts:client_edit' client.pk %}" class="btn btn-primary btn-sm">Edit</a>
+                <a href="{% url 'accounts:client_delete' client.pk %}" class="btn btn-danger btn-sm">Delete</a>
+            </span>
+        </a>
+        {% endfor %}
+    </div>
+    {% else %}
+    <p>No clients available.</p>
+    {% endif %}
+    <a href="{% url 'accounts:client_add' %}" class="btn btn-success mt-3">Add New Client</a>
+</div>
 {% endblock %}
