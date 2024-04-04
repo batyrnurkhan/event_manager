@@ -1,13 +1,70 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="container">
-    <h2>Suppliers</h2>
-    <a href="{% url 'suppliers:suppliers_add' %}">Add New Supplier</a>
-    <ul>
+<div class="container mt-5">
+    <h2 class="mb-3">Suppliers</h2>
+    <a href="{% url 'suppliers:suppliers_add' %}" class="btn btn-success mb-4">Add New Supplier</a>
+    <div class="list-group">
         {% for supplier in suppliers %}
-        <li>{{ supplier.name }} - {{ supplier.contact_info }} - <a href="{% url 'suppliers:edit' supplier.pk %}">Edit</a> - <a href="{% url 'suppliers:delete' supplier.pk %}">Delete</a></li>
+        <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+            {{ supplier.name }} - {{ supplier.contact_info }}
+            <span>
+                <a href="{% url 'suppliers:edit' supplier.pk %}" class="btn btn-sm btn-primary me-2">Edit</a>
+                <a href="{% url 'suppliers:delete' supplier.pk %}" class="btn btn-sm btn-danger">Delete</a>
+            </span>
+        </a>
+        {% empty %}
+        <div class="list-group-item">No suppliers available.</div>
         {% endfor %}
-    </ul>
+    </div>
 </div>
+<style>
+    /* General Container Styling */
+.container {
+    max-width: 800px; /* Optimizes reading width */
+}
+
+/* Styling for the Suppliers List */
+.list-group-item {
+    border-radius: 0.5rem; /* Softly rounded corners for a modern look */
+    margin-bottom: 0.5rem; /* Space between list items */
+    background-color: #f8f9fa; /* Light background for contrast */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+}
+
+.list-group-item a.btn {
+    text-decoration: none; /* Removes underline from button links */
+}
+
+/* Styling for Buttons */
+.btn-success {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Consistent shadow effect */
+}
+
+.btn-primary, .btn-danger {
+    margin: 0 5px; /* Ensures spacing between buttons */
+}
+
+/* Styling for the Form */
+.supplier-form p {
+    margin-bottom: 15px; /* Increases spacing for better form readability */
+}
+
+.supplier-form input[type="text"],
+.supplier-form input[type="email"],
+.supplier-form textarea,
+.supplier-form select {
+    width: 100%; /* Ensures full-width inputs */
+    padding: 10px; /* Comfortable padding inside inputs */
+    border-radius: 5px; /* Rounded corners for inputs */
+    border: 1px solid #ced4da; /* Subtle border styling */
+}
+
+.supplier-form button[type="submit"] {
+    padding: 10px 20px; /* Comfortable padding for easier interaction */
+    border-radius: 20px; /* Softly rounded button for a friendly appearance */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Adds depth to the submit button */
+}
+
+</style>
 {% endblock %}

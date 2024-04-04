@@ -1,12 +1,208 @@
 {% extends 'base.html' %}
 
+
 {% block content %}
 <div class="container mt-5">
-    <h2>{{ event.event_name }}</h2>
-    <!-- Display event details -->
-    <p>{{ event.event_description }}</p>
-    <!-- Add Edit and Delete buttons -->
-    <a href="{% url 'events:dashboard_event_edit' event.pk %}" class="btn btn-primary">Edit</a>
-    <a href="{% url 'events:dashboard_event_delete' event.pk %}" class="btn btn-danger">Delete</a>
+    <div class="row">
+        <div class="col-lg-8">
+            <div class="event-details">
+                <h2 class="event-title">{{ event.event_name }}</h2>
+                <img src="{{ event.event_image.url }}" alt="{{ event.event_name }}" class="img-fluid event-image mb-3">
+                <p class="event-description">{{ event.event_description }}</p>
+                <div class="event-info mb-3">
+                    <span class="badge bg-secondary">Sponsor: {{ event.event_sponsor }}</span>
+                    <span class="badge bg-info">Tickets: {{ event.event_sold_tickets }}/{{ event.event_tickets }}</span>
+                    <span class="badge bg-success">Venue: {{ event.venue }}</span>
+                    <span class="badge bg-warning text-dark">Start: {{ event.start_date|date:"F d, Y H:i" }}</span>
+                </div>
+                <a href="{% url 'events:dashboard_event_edit' event.pk %}" class="btn btn-primary me-2">Edit</a>
+                <a href="{% url 'events:dashboard_event_delete' event.pk %}" class="btn btn-danger">Delete</a>
+            </div>
+
+            <div class="chart-actions">
+                <button id="totalSoldsBtn" class="btn btn-outline-secondary">Total Solds</button>
+                <button id="totalSoldsLast24HBtn" class="btn btn-outline-secondary">Total Solds 24 Hours</button>
+            </div>
+            <div class="chart-container" style="width: 600px; height: 400px">
+                <canvas id="ticketsSoldChart"></canvas>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="event-participants">
+                <h3>Participants</h3>
+                <ul>
+                    {% for participant in participants %}
+                        <li>{{ participant.username }}</li>
+                    {% empty %}
+                        <p>No participants have joined this event yet.</p>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
 </div>
+
+ <div class="event-profit">
+        <h3>Profit:</h3>
+        {% if profit > 0 %}
+            <p style="color: green;">${{ profit }}</p>
+        {% else %}
+            <p style="color: red;">${{ profit }}</p>
+        {% endif %}
+    </div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    var totalTicketsSold = {{ total_tickets_sold }};
+    var ticketsSoldLast24H = {{ tickets_sold_last_24h }};
+
+    var ctxTickets = document.getElementById('ticketsSoldChart').getContext('2d');
+    var ticketsSoldChart = new Chart(ctxTickets, {
+        type: 'bar',
+        data: {
+            labels: ['Total Solds'],
+            datasets: [{
+                label: 'Tickets Sold',
+                data: [totalTicketsSold],
+                backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                borderColor: 'rgba(255, 99, 132, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+
+    document.getElementById('totalSoldsBtn').addEventListener('click', function() {
+        ticketsSoldChart.data.datasets[0].data = [totalTicketsSold];
+        ticketsSoldChart.data.labels = ['Total Solds'];
+        ticketsSoldChart.update();
+    });
+
+    document.getElementById('totalSoldsLast24HBtn').addEventListener('click', function() {
+        ticketsSoldChart.data.datasets[0].data = [ticketsSoldLast24H];
+        ticketsSoldChart.data.labels = ['Total Solds 24 Hours'];
+        ticketsSoldChart.update();
+    });
+});
+</script>
+<style>
+.event-details {
+    max-width: 800px;
+    margin-bottom: 40px;
+}
+
+.event-title {
+    margin-bottom: 15px;
+    color: #333;
+}
+
+.event-image {
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    margin-bottom: 20px;
+}
+
+.event-description {
+    font-size: 16px;
+    margin-bottom: 20px;
+    text-align: justify;
+}
+
+.event-info .badge {
+    padding: 10px;
+    margin-right: 5px;
+    margin-bottom: 5px;
+    font-size: 14px;
+}
+
+.btn {
+    padding: 10px 20px;
+    font-size: 16px;
+}
+
+.btn-primary {
+    margin-right: 10px;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.btn:active {
+    transform: translateY(1px);
+}
+
+.event-participants {
+    border-top: 2px solid #dee2e6;
+    padding-top: 20px;
+    margin-top: 20px;
+}
+
+.event-participants h3 {
+    margin-bottom: 15px;
+    color: #495057;
+}
+
+.event-participants ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.event-participants li {
+    padding: 8px 0;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.event-participants li:last-child {
+    border-bottom: none;
+}
+
+.chart-actions {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .chart-container {
+        margin-top: 30px;
+        background-color: #f8f9fa;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+.event-participants ul {
+        list-style: none;
+        padding-left: 0;
+    }
+
+    .event-participants li {
+        padding-bottom: 10px;
+    }
+
+    .chart-container {
+        margin-top: 20px;
+        background-color: #f8f9fa;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+
+    .chart-actions {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .btn-outline-secondary {
+        margin: 0 10px;
+    }
+</style>
 {% endblock %}

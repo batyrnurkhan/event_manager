@@ -5,8 +5,8 @@
     <h2>Superuser List</h2>
     <ul class="list-group mt-3">
         {% for superuser in superusers %}
-        <li class="list-group-item">
-            {{ superuser.username }} - <a href="{% url 'accounts:superuser_detail' superuser.pk %}">Details</a>
+        <li class="list-group-item" href="{% url 'accounts:superuser_detail' superuser.pk %}">
+             <a href="{% url 'accounts:superuser_detail' superuser.pk %}">{{ superuser.username }}</a>
         </li>
         {% endfor %}
     </ul>

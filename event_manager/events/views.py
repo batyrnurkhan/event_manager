@@ -56,11 +56,29 @@ from django.views.generic import DetailView
 from django.urls import reverse_lazy
 from django.views.generic.edit import DeleteView, UpdateView
 from .forms import EventForm  # Ensure you have created an EventForm as previously discussed
-
+from django.utils import timezone
+from datetime import timedelta
 class DashboardEventDetailView(DetailView):
     model = Event
     template_name = 'events/dashboard_event_detail.html'
     context_object_name = 'event'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        event = context['event']
+        tickets_sold_last_24h = event.participants.filter(date_joined__gte=timezone.now() - timedelta(days=1)).count()
+        total_tickets_sold = event.event_sold_tickets
+        earnings = event.calculate_profit()
+        profit = event.calculate_profit()
+
+        context['profit'] = profit
+        context['tickets_sold_last_24h'] = tickets_sold_last_24h
+        context['total_tickets_sold'] = total_tickets_sold
+        context['earnings'] = earnings
+        participants = event.participants.all()
+        context['participants'] = participants
+
+        return context
 
 class DashboardEventDeleteView(DeleteView):
     model = Event

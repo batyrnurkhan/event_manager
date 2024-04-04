@@ -4,11 +4,52 @@
 
 {% block content %}
 <div class="container mt-5">
-    <h2>{% if object %}Edit Event{% else %}Add Event{% endif %}</h2>
-    <form method="post" enctype="multipart/form-data">
+    <h2 class="mb-4">{% if object %}Edit Event{% else %}Add Event{% endif %}</h2>
+    <form method="post" enctype="multipart/form-data" class="event-form">
         {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="btn btn-primary">{% if object %}Update{% else %}Create{% endif %} Event</button>
+        <div class="form-group">
+            {{ form.as_p }}
+        </div>
+        <button type="submit" class="btn btn-primary">{% if object %}Update Event{% else %}Create Event{% endif %}</button>
     </form>
 </div>
+<style>
+    .event-form p {
+    margin-bottom: 15px; /* Adds spacing between form fields */
+}
+
+.event-form label {
+    font-weight: bold; /* Enhances readability of labels */
+    display: block; /* Ensures labels are block-level for proper spacing */
+    margin-bottom: 5px; /* Space below labels for clarity */
+}
+
+.event-form input[type="text"],
+.event-form input[type="email"],
+.event-form input[type="date"],
+.event-form input[type="number"],
+.event-form input[type="file"],
+.event-form textarea,
+.event-form select {
+    width: 100%; /* Full width for inputs */
+    padding: 10px; /* Comfortable padding within inputs */
+    margin-bottom: 10px; /* Separation space below inputs */
+    border-radius: 5px; /* Rounded corners for a modern look */
+    border: 1px solid #ced4da; /* Subtle border styling */
+}
+
+.event-form button[type="submit"] {
+    padding: 10px 20px; /* Adequate padding for button */
+    color: #fff; /* Text color for contrast */
+    background-color: #007bff; /* Primary button color */
+    border: none; /* Removes the default border */
+    border-radius: 5px; /* Consistent rounded corners */
+    cursor: pointer; /* Visual cue for interactivity */
+}
+
+.event-form button[type="submit"]:hover {
+    background-color: #0056b3; /* Darker shade on hover for visual feedback */
+}
+
+</style>
 {% endblock %}

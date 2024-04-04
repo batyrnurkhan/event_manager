@@ -1,12 +1,64 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="container">
-    <h2>{% if object %}Edit Supplier{% else %}Add New Supplier{% endif %}</h2>
-    <form method="post" novalidate>
+<div class="container mt-5">
+    <h2 class="mb-4">{% if object %}Edit Supplier{% else %}Add New Supplier{% endif %}</h2>
+    <form method="post" novalidate class="supplier-form">
         {% csrf_token %}
-        {{ form.as_p }}
+        <div class="mb-3">
+            {{ form.as_p }}
+        </div>
         <button type="submit" class="btn btn-primary">{% if object %}Update{% else %}Submit{% endif %}</button>
     </form>
 </div>
+<style>
+    /* General Container Styling */
+.container {
+    max-width: 800px; /* Optimizes reading width */
+}
+
+/* Styling for the Suppliers List */
+.list-group-item {
+    border-radius: 0.5rem; /* Softly rounded corners for a modern look */
+    margin-bottom: 0.5rem; /* Space between list items */
+    background-color: #f8f9fa; /* Light background for contrast */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+}
+
+.list-group-item a.btn {
+    text-decoration: none; /* Removes underline from button links */
+}
+
+/* Styling for Buttons */
+.btn-success {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Consistent shadow effect */
+}
+
+.btn-primary, .btn-danger {
+    margin: 0 5px; /* Ensures spacing between buttons */
+}
+
+/* Styling for the Form */
+.supplier-form p {
+    margin-bottom: 15px; /* Increases spacing for better form readability */
+}
+
+.supplier-form input[type="text"],
+.supplier-form input[type="email"],
+.supplier-form textarea,
+.supplier-form select {
+    width: 100%; /* Ensures full-width inputs */
+    padding: 10px; /* Comfortable padding inside inputs */
+    border-radius: 5px; /* Rounded corners for inputs */
+    border: 1px solid #ced4da; /* Subtle border styling */
+}
+
+.supplier-form button[type="submit"] {
+    padding: 10px 20px; /* Comfortable padding for easier interaction */
+    border-radius: 20px; /* Softly rounded button for a friendly appearance */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Adds depth to the submit button */
+}
+
+</style>
+
 {% endblock %}

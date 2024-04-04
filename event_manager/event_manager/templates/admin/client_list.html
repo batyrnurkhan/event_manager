@@ -8,6 +8,7 @@
         {% for client in clients %}
         <a href="{% url 'accounts:client_detail' client.pk %}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
             {{ client.user.get_full_name }} - {{ client.email }}
+
         </a>
         {% endfor %}
     </div>

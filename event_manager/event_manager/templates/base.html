@@ -24,37 +24,39 @@
         .navbar {
             background-color: var(--white);
             border-bottom: 2px solid var(--light-color);
+            z-index: 1000;
         }
-        .navbar-brand {
-            color: var(--dark-color);
-        }
-        .nav-link {
-            color: var(--dark-color);
-            margin-right: 1rem;
+        .navbar-brand, .nav-link {
+            color: var(--dark-color) !important;
         }
         .nav-link:hover {
-            color: var(--primary-color);
+            color: var(--primary-color) !important;
         }
         .sidebar {
-            background-color: var(--secondary-color);
-            color: var(--dark-color);
-            height: 100vh;
+            position: fixed;
+            top: 56px;
+            left: 0;
+            width: 250px;
+            height: calc(100vh - 56px);
             overflow-y: auto;
+            background-color: var(--secondary-color);
+            padding: 1rem;
+            box-sizing: border-box;
         }
-        .sidebar .list-group-item-action {
-            color: var(--dark-color);
+        .content {
+            margin-left: 250px;
+            padding-top: 1rem;
+            padding-left: 1rem;
+            padding-right: 1rem;
         }
         .sidebar .list-group-item-action:hover {
             background-color: var(--primary-color);
             color: var(--white);
         }
-        .container-fluid {
-            padding: 2rem;
-        }
     </style>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light">
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top">
         <a class="navbar-brand" href="#">Event Manager</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -78,7 +80,7 @@
                         </button>
                         <div class="dropdown-menu" aria-labelledby="clientManagementDropdown">
                             <a class="dropdown-item" href="{% url 'accounts:client_list' %}">Client List</a>
-        <a class="dropdown-item" href="{% url 'accounts:user_list' %}">User List</a>
+                            <a class="dropdown-item" href="{% url 'accounts:user_list' %}">User List</a>
                         </div>
                     </div>
                     <div class="dropdown" style="margin-bottom: 10px">
@@ -86,49 +88,48 @@
                             Resource Management
                         </button>
                         <div class="dropdown-menu" aria-labelledby="clientManagementDropdown">
-        <a class="dropdown-item" href="{% url 'event_resource:add_resource' %}">Add New Resource</a>
-        <a class="dropdown-item" href="{% url 'event_resource:resource_list' %}">Resource List</a>
+                            <a class="dropdown-item" href="{% url 'event_resource:add_resource' %}">Add New Resource</a>
+                            <a class="dropdown-item" href="{% url 'event_resource:resource_list' %}">Resource List</a>
                         </div>
                     </div>
                     <div class="dropdown" style="margin-bottom: 10px">
-            <button class="btn btn-secondary dropdown-toggle" type="button" id="eventsManagementDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Events Management
-            </button>
-            <div class="dropdown-menu" aria-labelledby="eventsManagementDropdown">
-                <a class="dropdown-item" href="{% url 'events:dashboard_event_list' %}">List Events</a>
-                <a class="dropdown-item" href="{% url 'events:add_event' %}">Add New Event</a>
-            </div>
-        </div>
-                    <div class="dropdown" style="margin-bottom: 10px">
-            <button class="btn btn-secondary dropdown-toggle" type="button" id="adminManagementDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Admin Management
-            </button>
-            <div class="dropdown-menu" aria-labelledby="eventsManagementDropdown">
-          <a class="dropdown-item" href="{% url 'accounts:superuser_list' %}">List Superusers</a>
-          <a class="dropdown-item" href="{% url 'accounts:add_admin' %}">Add New Admin</a>
-
-            </div>
+                        <button class="btn btn-secondary dropdown-toggle" type="button" id="eventsManagementDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Events Management
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="eventsManagementDropdown">
+                            <a class="dropdown-item" href="{% url 'events:dashboard_event_list' %}">List Events</a>
+                            <a class="dropdown-item" href="{% url 'events:add_event' %}">Add New Event</a>
+                        </div>
                     </div>
-
+                    <div class="dropdown" style="margin-bottom: 10px">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" id="adminManagementDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Admin Management
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="eventsManagementDropdown">
+                            <a class="dropdown-item" href="{% url 'accounts:superuser_list' %}">List Superusers</a>
+                            <a class="dropdown-item" href="{% url 'accounts:add_admin' %}">Add New Admin</a>
+                        </div>
+                    </div>
                     <div class="dropdown" style="margin-bottom: 10px">
                         <button class="btn btn-secondary dropdown-toggle" type="button" id="supplierManagementDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Supplier Management
                         </button>
                         <div class="dropdown-menu" aria-labelledby="eventsManagementDropdown">
                             <a class="dropdown-item" href="{% url 'suppliers:suppliers_list' %}">List Suppliers</a>
-
                         </div>
                     </div>
                 </div>
             </div>
-            {% block content %}
-            {% endblock %}
+            <div class="col-md-9 ml-sm-auto col-lg-10 px-md-4 content">
+                {% block content %}
+                {% endblock %}
+            </div>
         </div>
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script> <!-- Popper.js -->
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

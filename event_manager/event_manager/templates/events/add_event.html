@@ -3,11 +3,52 @@
 {% block title %}Add New Event{% endblock %}
 
 {% block content %}
+<style>
+    .event-form p {
+    margin-bottom: 15px; /* Adds more space between form fields */
+}
+
+.event-form label {
+    font-weight: bold; /* Bold labels for better readability */
+    display: block; /* Ensures labels are block-level for correct spacing */
+    margin-bottom: 5px; /* Adds space below the label */
+}
+
+.event-form input[type="text"],
+.event-form input[type="email"],
+.event-form input[type="date"],
+.event-form input[type="number"],
+.event-form input[type="file"],
+.event-form textarea,
+.event-form select {
+    width: 100%; /* Full width inputs for consistency */
+    padding: 10px; /* Comfortable padding within inputs */
+    margin-bottom: 10px; /* Space below inputs for separation */
+    border-radius: 5px; /* Softly rounded corners for inputs */
+    border: 1px solid #ced4da; /* Subtle border color */
+}
+
+.event-form button[type="submit"] {
+    padding: 10px 20px; /* Sufficient padding for clickability */
+    color: #fff; /* Contrast text color */
+    background-color: #007bff; /* Attractive background color */
+    border: none; /* Removes default border */
+    border-radius: 5px; /* Matches input border-radius for consistency */
+    cursor: pointer; /* Indicates interactivity */
+}
+
+.event-form button[type="submit"]:hover {
+    background-color: #0056b3; /* Slightly darker shade on hover for feedback */
+}
+
+</style>
 <div class="container mt-5">
-    <h2>Add New Event</h2>
-    <form method="post" enctype="multipart/form-data">
+    <h2 class="mb-4">Add New Event</h2>
+    <form method="post" enctype="multipart/form-data" class="event-form">
         {% csrf_token %}
-        {{ form.as_p }}
+        <div class="form-group mb-3">
+            {{ form.as_p }}
+        </div>
         <button type="submit" class="btn btn-primary">Create Event</button>
     </form>
 </div>
