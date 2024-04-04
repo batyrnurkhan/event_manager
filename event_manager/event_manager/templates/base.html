@@ -119,6 +119,16 @@
 
                         </div>
                     </div>
+                     <div class="dropdown" style="margin-bottom: 10px">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" id="supplierManagementDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Invoice Management
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="eventsManagementDropdown">
+                            <a class="dropdown-item" href="{% url 'invoice:list_invoices' %}">List Invoice</a>
+                            <a class="dropdown-item" href="{% url 'invoice:add_invoice' %}">add Invoice</a>
+
+                        </div>
+                    </div>
                 </div>
             </div>
             {% block content %}

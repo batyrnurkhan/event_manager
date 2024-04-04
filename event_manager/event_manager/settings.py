@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'events',
     'event_resource',
     'suppliers',
+    'invoice',
 
 ]
 
