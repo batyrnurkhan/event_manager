@@ -1,13 +1,51 @@
 {% extends 'base.html' %}
 
 {% block content %}
-
-    <h2>Добавить ресурс</h2>
-    <form method="post">
+<div class="container mt-5">
+    <h2 class="mb-4">Добавить ресурс</h2>
+    <form method="post" class="resource-add-form">
         {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Добавить</button>
+        <div class="form-group mb-3">
+            {{ form.as_p }}
+        </div>
+        <button type="submit" class="btn btn-primary">Добавить</button>
     </form>
+</div>
+<style>
+    .resource-add-form p {
+    margin-bottom: 15px; /* Spacing between form fields */
+}
+
+.resource-add-form label {
+    font-weight: bold; /* Make labels bold */
+    margin-bottom: 5px; /* Space between label and input */
+    display: block; /* Ensure labels are block-level for correct spacing */
+}
+
+.resource-add-form input[type="text"],
+.resource-add-form input[type="email"],
+.resource-add-form input[type="number"],
+.resource-add-form textarea,
+.resource-add-form select {
+    width: 100%; /* Full width */
+    padding: 10px; /* Padding for input */
+    margin-bottom: 10px; /* Spacing after inputs */
+    border-radius: 5px; /* Rounded borders for inputs */
+    border: 1px solid #ccc; /* Border color */
+}
+
+.resource-add-form button[type="submit"] {
+    padding: 10px 20px; /* Button padding */
+    color: white; /* Text color */
+    background-color: #007bff; /* Background color */
+    border: none; /* Remove border */
+    border-radius: 5px; /* Rounded borders */
+    cursor: pointer; /* Pointer cursor on hover */
+}
+
+.resource-add-form button[type="submit"]:hover {
+    background-color: #0056b3; /* Darker background on hover */
+}
+
+</style>
 {% endblock %}
-
-

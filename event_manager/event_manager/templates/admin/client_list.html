@@ -8,11 +8,6 @@
         {% for client in clients %}
         <a href="{% url 'accounts:client_detail' client.pk %}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
             {{ client.user.get_full_name }} - {{ client.email }}
-            <span>
-                <a href="{% url 'accounts:client_detail' client.pk %}" class="btn btn-info btn-sm">Details</a>
-                <a href="{% url 'accounts:client_edit' client.pk %}" class="btn btn-primary btn-sm">Edit</a>
-                <a href="{% url 'accounts:client_delete' client.pk %}" class="btn btn-danger btn-sm">Delete</a>
-            </span>
         </a>
         {% endfor %}
     </div>

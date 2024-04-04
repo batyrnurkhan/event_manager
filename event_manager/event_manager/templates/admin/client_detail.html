@@ -1,10 +1,49 @@
-{% extends 'base_general.html' %}
+{% extends 'base.html' %}
 
 {% block content %}
-<h2>Client Detail</h2>
-<p>Name: {{ client.user.get_full_name }}</p>
-<p>Email: {{ client.email }}</p>
-<p>Phone: {{ client.user.phone }}</p>
-<!-- Add any other client details you wish to display -->
-<a href="{% url 'accounts:client_list' %}">Back to List</a>
+<div class="container mt-5">
+    <div class="client-detail-card card">
+        <div class="card-body">
+            <h2 class="card-title">Client Detail</h2>
+            <p class="card-text"><strong>Name:</strong> {{ client.user.get_full_name }}</p>
+            <p class="card-text"><strong>Email:</strong> {{ client.email }}</p>
+            <p class="card-text"><strong>Phone:</strong> {{ client.user.phone }}</p>
+            <div class="btn-group" role="group" aria-label="Client Actions">
+                <a href="{% url 'accounts:client_edit' client.pk %}" class="btn btn-primary">Edit</a>
+                <a href="{% url 'accounts:client_delete' client.pk %}" class="btn btn-danger">Delete</a>
+                <a href="{% url 'accounts:client_list' %}" class="btn btn-secondary">Back to List</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .client-detail-card {
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.card-body {
+    padding: 20px;
+}
+
+.card-title {
+    margin-bottom: 20px;
+}
+
+.card-text {
+    margin-bottom: 10px;
+    font-size: 16px;
+}
+
+.btn-group {
+    margin-top: 20px;
+}
+
+.btn {
+    margin-right: 10px;
+}
+
+</style>
 {% endblock %}
