@@ -1,13 +1,51 @@
 {% extends 'base.html' %}
 
 {% block content %}
-
-    <h2>Редактирование ресурса</h2>
-    <form method="post">
+<div class="container mt-5">
+    <h2 class="mb-4">Редактирование ресурса</h2>
+    <form method="post" class="form-resource-edit">
         {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Сохранить изменения</button>
+        <div class="mb-3">
+            {{ form.as_p }}
+        </div>
+        <button type="submit" class="btn btn-primary">Сохранить изменения</button>
     </form>
+</div>
+<style>
+    .form-resource-edit p {
+    margin-bottom: 15px; /* Spacing between form fields */
+}
+
+.form-resource-edit label {
+    font-weight: bold; /* Make labels bold */
+    margin-bottom: 5px; /* Space between label and input */
+    display: block; /* Ensure labels are block-level for correct spacing */
+}
+
+.form-resource-edit input[type="text"],
+.form-resource-edit input[type="email"],
+.form-resource-edit input[type="number"],
+.form-resource-edit textarea,
+.form-resource-edit select {
+    width: 100%; /* Full width for inputs */
+    padding: 10px; /* Padding inside inputs */
+    margin-bottom: 10px; /* Spacing after inputs */
+    border-radius: 5px; /* Rounded corners for inputs */
+    border: 1px solid #ccc; /* Border color */
+}
+
+.form-resource-edit button[type="submit"] {
+    padding: 10px 20px; /* Padding for the button */
+    color: white; /* Text color for the button */
+    background-color: #007bff; /* Background color for the button */
+    border: none; /* Remove border for the button */
+    border-radius: 5px; /* Rounded corners for the button */
+    cursor: pointer; /* Pointer cursor on hover */
+}
+
+.form-resource-edit button[type="submit"]:hover {
+    background-color: #0056b3; /* Darker background on hover */
+}
+
+</style>
 {% endblock %}
-
-
