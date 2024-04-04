@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Invoice List</h2>
+<ul>
+    {% for invoice in invoices %}
+    <li>Invoice {{ invoice.id }}: {{ invoice.amount }} - {{ invoice.data }}</li>
+    {% endfor %}
+</ul>
+{% endblock %}
