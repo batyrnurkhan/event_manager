@@ -66,3 +66,11 @@ class AdminCreationForm(UserCreationForm):
             user.save()
             user.user_permissions.set(self.cleaned_data['permissions'])
         return user
+
+from django import forms
+from .models import Contact
+
+class ContactForm(forms.ModelForm):
+    class Meta:
+        model = Contact
+        fields = ['name', 'email', 'phone_number', 'message']
