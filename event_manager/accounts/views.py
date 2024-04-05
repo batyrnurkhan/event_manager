@@ -180,3 +180,5 @@ def ensure_chat_rooms(request):
             chat_room.participants.add(user, superuser)
             chat_room.save()
     return redirect('accounts:chat_list')
+
+
