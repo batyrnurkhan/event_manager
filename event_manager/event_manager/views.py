@@ -1,11 +1,11 @@
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User
 from django.db.models import Sum
 from django.utils.timezone import datetime, timedelta
 from django.shortcuts import render, get_object_or_404
 from events.models import Event
 from django.db.models import Count
 from django.utils import timezone
+from django.contrib.auth import get_user_model
 
 from django.shortcuts import get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
@@ -13,6 +13,7 @@ from django.http import HttpResponseForbidden
 from events.models import Event, Participant
 from django.db import transaction
 
+User = get_user_model()  # Get the custom user model
 
 def home(request):
     events = Event.objects.all()  # Fetch all events, or use a filter as needed

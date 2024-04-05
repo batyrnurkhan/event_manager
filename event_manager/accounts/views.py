@@ -118,3 +118,65 @@ class EditAdminView(UpdateView):
     form_class = AdminCreationForm  # You might need a slightly modified form for editing
     template_name = 'admin/edit_admin.html'
     success_url = reverse_lazy('accounts:superuser_list')
+
+
+
+from .models import ChatRoom, Message
+
+class ChatListView(ListView):
+    model = ChatRoom
+    template_name = 'chat/chat_list.html'
+    context_object_name = 'chats'
+
+    def get_queryset(self):
+        user = self.request.user
+        return ChatRoom.objects.filter(participants=user)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        chats_with_other_participants = []
+        for chat in context['chats']:
+            other_participant = chat.get_other_participant(self.request.user)
+            chats_with_other_participants.append({
+                'chat': chat,
+                'other_username': other_participant.username if other_participant else 'Unknown'
+            })
+        context['chats_with_others'] = chats_with_other_participants
+        return context
+
+
+class ChatDetailView(DetailView):
+    model = ChatRoom
+    template_name = 'chat/chat_detail.html'
+    context_object_name = 'chat'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['messages'] = Message.objects.filter(chat_room=self.get_object())
+        return context
+
+from django.shortcuts import redirect
+
+def send_message(request, pk):
+    chat_room = ChatRoom.objects.get(pk=pk)
+    text = request.POST.get('message')
+    Message.objects.create(chat_room=chat_room, sender=request.user, text=text)
+    return redirect('accounts:chat_detail', pk=pk)
+
+from django.shortcuts import redirect
+from django.contrib.auth import get_user_model
+from django.contrib.auth.decorators import login_required
+from .models import ChatRoom
+@login_required
+def ensure_chat_rooms(request):
+    superusers = get_user_model().objects.filter(is_superuser=True)
+    user = request.user
+    for superuser in superusers:
+        # Check if there's an existing chat room with the superuser
+        chat_exists = ChatRoom.objects.filter(participants=superuser).filter(participants=user).exists()
+        if not chat_exists:
+            # Create a new chat room with the superuser if it doesn't exist
+            chat_room = ChatRoom.objects.create()
+            chat_room.participants.add(user, superuser)
+            chat_room.save()
+    return redirect('accounts:chat_list')

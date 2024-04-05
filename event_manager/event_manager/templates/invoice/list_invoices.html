@@ -1,10 +1,40 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h2>Invoice List</h2>
-<ul>
-    {% for invoice in invoices %}
-    <li>Invoice {{ invoice.id }}: {{ invoice.amount }} - {{ invoice.data }}</li>
-    {% endfor %}
-</ul>
+<style>
+    body, h1, h2, h3, h4, h5, h6, p {
+        font-family: 'DM Sans', sans-serif;
+    }
+    .container {
+        max-width: 800px;
+        margin: auto;
+    }
+    .page-title {
+        color: #3772FF;
+        margin-bottom: 30px;
+        text-align: center;
+    }
+    .invoice-list {
+        list-style-type: none;
+        padding-left: 0;
+    }
+    .invoice-item {
+        background-color: #F5F5F7;
+        border: 1px solid #E1E1E1;
+        border-radius: 8px;
+        padding: 15px;
+        margin-bottom: 10px;
+    }
+</style>
+
+<div class="container my-5">
+    <h2 class="page-title">Invoice List</h2>
+    <ul class="invoice-list">
+        {% for invoice in invoices %}
+        <li class="invoice-item">Invoice {{ invoice.id }}: ${{ invoice.amount }} - {{ invoice.date_time|date:"Y-m-d H:i" }}</li>
+        {% empty %}
+        <li>No invoices available.</li>
+        {% endfor %}
+    </ul>
+</div>
 {% endblock %}

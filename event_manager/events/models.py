@@ -19,6 +19,7 @@ class Event(models.Model):
     event_sold_out = models.BooleanField(default=False)
     event_organizer = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE,
                                         related_name='organized_events')
+
     participants = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='joined_events', blank=True,
                                           through='Participant')
     ticket_cost = models.DecimalField(max_digits=10, decimal_places=2, default=0)

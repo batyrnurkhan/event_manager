@@ -2,7 +2,8 @@ from django.urls import path
 from django.contrib.auth.views import LoginView
 from . import views
 from django.contrib.auth.views import LogoutView
-from .views import ClientListView, UserListView, ClientCreateView, ClientDetailView, UserDetailView, ClientUpdateView, ClientDeleteView
+from .views import ClientListView, UserListView, ClientCreateView, ClientDetailView, UserDetailView, ClientUpdateView, \
+    ClientDeleteView, ChatListView, ChatDetailView, ensure_chat_rooms
 from .views import SuperuserListView, SuperuserDetailView, AddAdminView, EditAdminView
 
 app_name = 'accounts'
@@ -22,4 +23,10 @@ urlpatterns = [
     path('superusers/<int:pk>/', SuperuserDetailView.as_view(), name='superuser_detail'),
     path('add-admin/', AddAdminView.as_view(), name='add_admin'),
     path('edit-admin/<int:pk>/', EditAdminView.as_view(), name='edit_admin'),
+
+    path('chats/', ChatListView.as_view(), name='chat_list'),
+    path('chats/<int:pk>/', ChatDetailView.as_view(), name='chat_detail'),
+    path('ensure-chat-rooms/', ensure_chat_rooms, name='ensure_chat_rooms'),
+    path('chats/<int:pk>/send/', views.send_message, name='send_message'),  # Add this line
+
 ]

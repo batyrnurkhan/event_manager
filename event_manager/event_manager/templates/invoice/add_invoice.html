@@ -1,10 +1,51 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h2>Add Invoice</h2>
-<form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Submit</button>
-</form>
+<style>
+    body, h1, h2, h3, h4, h5, h6, p {
+        font-family: 'DM Sans', sans-serif;
+    }
+    .container {
+        max-width: 800px;
+        margin: auto;
+    }
+    .page-title {
+        color: #3772FF;
+        margin-bottom: 30px;
+        text-align: center;
+    }
+    .invoice-form {
+        background-color: #FFFFFF;
+        border: 1px solid #E1E1E1;
+        border-radius: 8px;
+        padding: 20px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    .invoice-form p {
+        margin-bottom: 15px;
+    }
+    .btn-submit {
+        background-color: #34A853;
+        color: #FFFFFF;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        display: block;
+        width: 100%;
+        font-size: 16px;
+    }
+    .btn-submit:hover {
+        background-color: #2C8C4A;
+    }
+</style>
+
+<div class="container my-5">
+    <h2 class="page-title">Add Invoice</h2>
+    <form method="post" class="invoice-form">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn-submit">Submit</button>
+    </form>
+</div>
 {% endblock %}

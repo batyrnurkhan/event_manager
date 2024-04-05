@@ -1,0 +1,44 @@
+{% extends 'base_general.html' %}
+
+{% block content %}
+<style>
+    h2 {
+        color: var(--primary-color);
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+    ul {
+        list-style-type: none;
+        padding: 0;
+    }
+    li {
+        background-color: var(--light-color);
+        margin-bottom: 1rem;
+        padding: 1rem;
+        border-radius: 8px;
+        transition: background-color 0.3s ease;
+    }
+    li:hover {
+        background-color: var(--secondary-color);
+    }
+    a {
+        text-decoration: none;
+        color: var(--dark-color);
+        display: block;
+    }
+    a:hover {
+        color: var(--primary-color);
+    }
+</style>
+
+<div class="chat-list">
+    <h2>Your Chats</h2>
+    <ul>
+        {% for chat_info in chats_with_others %}
+        <li><a href="{% url 'accounts:chat_detail' chat_info.chat.pk %}">{{ chat_info.other_username }}</a></li>
+        {% empty %}
+        <li>No chats found.</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

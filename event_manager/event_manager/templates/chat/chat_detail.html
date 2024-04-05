@@ -1,0 +1,59 @@
+{% extends 'base_general.html' %}
+
+{% block content %}
+<style>
+    h2 {
+        color: var(--primary-color);
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+    div {
+        margin-bottom: 2rem;
+    }
+    p {
+        background-color: var(--light-color);
+        padding: 1rem;
+        border-radius: 8px;
+        margin-bottom: 1rem;
+    }
+    strong {
+        color: var(--primary-color);
+    }
+    form {
+        display: flex;
+        gap: 1rem;
+    }
+    input[type="text"] {
+        flex-grow: 1;
+        padding: 0.5rem;
+        border: 1px solid var(--secondary-color);
+        border-radius: 8px;
+    }
+    button {
+        background-color: var(--primary-color);
+        color: var(--white);
+        border: none;
+        padding: 0.5rem 1rem;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+    button:hover {
+        background-color: var(--dark-color);
+    }
+</style>
+
+<div class="chat-detail">
+    <h2>Chat</h2>
+    <div>
+        {% for message in messages %}
+        <p><strong>{{ message.sender.username }}:</strong> {{ message.text }}</p>
+        {% endfor %}
+    </div>
+    <form method="post" action="{% url 'accounts:send_message' chat.pk %}">
+        {% csrf_token %}
+        <input type="text" name="message" placeholder="Type a message...">
+        <button type="submit">Send</button>
+    </form>
+</div>
+{% endblock %}

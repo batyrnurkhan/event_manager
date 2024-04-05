@@ -24,19 +24,44 @@
         .navbar {
             background-color: var(--white);
             border-bottom: 2px solid var(--light-color);
+            padding: 0.5rem 1rem;
         }
         .navbar-brand, .nav-link {
-            color: var(--dark-color);
+            color: var(--dark-color) !important;
         }
         .nav-link:hover {
-            color: var(--primary-color);
+            color: var(--primary-color) !important;
         }
         .btn-primary {
             background-color: var(--primary-color);
             border-color: var(--primary-color);
         }
-        .btn-primary:hover {
+        .btn-primary:hover, .btn-primary:focus {
             background-color: var(--dark-color);
+            border-color: var(--dark-color);
+        }
+        .container {
+            padding-top: 2rem;
+        }
+        /* Additional Styling */
+        .container-fluid {
+            padding: 2rem;
+        }
+        .footer {
+            text-align: center;
+            padding: 1rem 0;
+            background-color: var(--secondary-color);
+            margin-top: 2rem;
+            font-size: 0.9rem;
+            color: var(--dark-color);
+        }
+        /* Styling for the Tech Support Button if needed */
+        .tech-support-btn {
+            position: fixed;
+            right: 20px;
+            bottom: 20px;
+            font-size: 1rem;
+            z-index: 1050;
         }
     </style>
 </head>
@@ -48,20 +73,30 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a href="{% url 'home' %}" class="nav-link">Home</a>
+                </li>
                 {% if user.is_authenticated %}
-                    <li class="nav-item">
-                        <a class="nav-link">Hi, {{ user.username }}</a>
-                    </li>
-                    <li class="nav-item">
-                        <form action="{% url 'logout' %}" method="post">
-                            {% csrf_token %}
-                            <button type="submit" class="btn btn-primary">Sign out</button>
-                        </form>
-                    </li>
+                <li class="nav-item">
+                    <form action="{% url 'logout' %}" method="post" class="form-inline">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-primary">Sign out</button>
+                    </form>
+                </li>
+                {% if user.is_superuser %}
+                <li class="nav-item">
+                    <a href="{% url 'dashboard' %}" class="nav-link">Dashboard</a>
+                </li>
+                {% endif %}
                 {% else %}
-                    <li class="nav-item">
-                        <a href="{% url 'accounts:signin' %}" class="btn btn-primary">Sign in</a>
-                    </li>
+                <li class="nav-item">
+                    <a href="{% url 'accounts:signin' %}" class="btn btn-primary">Sign in</a>
+                </li>
+                {% endif %}
+                {% if user.is_authenticated %}
+                <li class="nav-item">
+                    <a href="{% url 'accounts:ensure_chat_rooms' %}" class="btn btn-primary tech-support-btn">Tech Support</a>
+                </li>
                 {% endif %}
             </ul>
         </div>
