@@ -1,10 +1,13 @@
-from django.urls import path
+from django.urls import path, reverse_lazy
 from django.contrib.auth.views import LoginView
 from . import views
 from django.contrib.auth.views import LogoutView
 from .views import ClientListView, UserListView, ClientCreateView, ClientDetailView, UserDetailView, ClientUpdateView, \
     ClientDeleteView, ChatListView, ChatDetailView, ensure_chat_rooms
 from .views import SuperuserListView, SuperuserDetailView, AddAdminView, EditAdminView
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
+from django.contrib.auth import views as auth_views
+from django.urls import path
 
 app_name = 'accounts'
 
@@ -29,4 +32,20 @@ urlpatterns = [
     path('ensure-chat-rooms/', ensure_chat_rooms, name='ensure_chat_rooms'),
     path('chats/<int:pk>/send/', views.send_message, name='send_message'),  # Add this line
 
+    path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+
+    path('password_reset/', auth_views.PasswordResetView.as_view(
+        template_name='accounts/password_reset_form.html',
+        email_template_name='accounts/password_reset_email.html',
+        success_url=reverse_lazy('accounts:password_reset_done')
+    ), name='password_reset'),
+    path('password_reset/done/',
+         auth_views.PasswordResetDoneView.as_view(template_name='accounts/password_reset_done.html'),
+         name='password_reset_done'),
+    path('reset/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(), name='password_reset_confirm'),
+    path('reset/done/', auth_views.PasswordResetCompleteView.as_view(), name='password_reset_complete'),
+    path('password_change/', auth_views.PasswordChangeView.as_view(template_name='accounts/password_change_form.html'), name='password_change'),
+    path('password_change/done/', auth_views.PasswordChangeDoneView.as_view(template_name='accounts/password_change_done.html'), name='password_change_done'),
 ]
+
