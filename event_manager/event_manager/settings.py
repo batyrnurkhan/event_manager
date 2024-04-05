@@ -47,7 +47,7 @@ INSTALLED_APPS = [
     'invoice',
 
     'channels',
-
+    'crispy_forms',
 ]
 
 MIDDLEWARE = [
@@ -171,3 +171,5 @@ REST_FRAMEWORK = {
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     )
 }
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
