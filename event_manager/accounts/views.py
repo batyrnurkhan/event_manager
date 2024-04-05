@@ -182,3 +182,17 @@ def ensure_chat_rooms(request):
     return redirect('accounts:chat_list')
 
 
+from django.shortcuts import render, redirect
+from .forms import ContactForm
+
+def contact_view(request):
+    if request.method == 'POST':
+        form = ContactForm(request.POST)
+        if form.is_valid():
+            form.save()
+            # return redirect('success_url')  # Redirect to a new URL
+    else:
+        form = ContactForm()
+    return render(request, 'accounts/contact.html', {'form': form})
+
+

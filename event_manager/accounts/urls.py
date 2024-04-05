@@ -1,14 +1,12 @@
-from django.urls import path, reverse_lazy
 from django.contrib.auth.views import LoginView
-from . import views
-from django.contrib.auth.views import LogoutView
-from .views import ClientListView, UserListView, ClientCreateView, ClientDetailView, UserDetailView, ClientUpdateView, \
-    ClientDeleteView, ChatListView, ChatDetailView, ensure_chat_rooms
-from .views import SuperuserListView, SuperuserDetailView, AddAdminView, EditAdminView
+
+
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from django.contrib.auth import views as auth_views
 from django.urls import path
 from django.contrib.auth.views import PasswordResetView
+
+from .views import *
 
 app_name = 'accounts'
 
@@ -23,7 +21,7 @@ class CustomPasswordResetView(PasswordResetView):
         return context
 
 urlpatterns = [
-    path('signup/', views.signup, name='signup'),
+    path('signup/', signup, name='signup'),
     path('signin/', LoginView.as_view(template_name='accounts/signin.html'), name='signin'),
     path('clients/', ClientListView.as_view(), name='client_list'),
     path('users/', UserListView.as_view(), name='user_list'),
@@ -41,7 +39,7 @@ urlpatterns = [
     path('chats/', ChatListView.as_view(), name='chat_list'),
     path('chats/<int:pk>/', ChatDetailView.as_view(), name='chat_detail'),
     path('ensure-chat-rooms/', ensure_chat_rooms, name='ensure_chat_rooms'),
-    path('chats/<int:pk>/send/', views.send_message, name='send_message'),  # Add this line
+    path('chats/<int:pk>/send/', send_message, name='send_message'),  # Add this line
 
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
@@ -63,5 +61,7 @@ urlpatterns = [
     ), name='password_reset_complete'),
     path('password_change/', auth_views.PasswordChangeView.as_view(template_name='accounts/password_change_form.html'), name='password_change'),
     path('password_change/done/', auth_views.PasswordChangeDoneView.as_view(template_name='accounts/password_change_done.html'), name='password_change_done'),
+    path('contact/', contact_view, name='contact'),
+
 ]
 
