@@ -23,9 +23,10 @@
                                 <p class="text-success">You got a ticket!</p>
                             {% else %}
                                 <form method="post" action="{% url 'events:join_event' slug=event.event_slug %}">
-                                    {% csrf_token %}
-                                    <button type="submit" class="btn btn-primary">Join Event</button>
-                                </form>
+    {% csrf_token %}
+    <button type="submit" class="btn btn-primary">Join Event</button>
+</form>
+
                             {% endif %}
                         {% endif %}
                         <a href="{% url 'events:event_detail' event.event_slug %}" class="btn btn-secondary">Details</a>

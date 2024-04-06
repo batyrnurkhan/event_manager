@@ -2,19 +2,99 @@
 
 {% block content %}
 <div class="container mt-5">
-    <h2>Clients List</h2>
-    {% if clients %}
-    <div class="list-group">
-        {% for client in clients %}
-        <a href="{% url 'accounts:client_detail' client.pk %}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-            {{ client.user.get_full_name }} - {{ client.email }}
+    <h2 class="mb-4">Client Management</h2>
 
-        </a>
-        {% endfor %}
+    <!-- Add New Client Section -->
+    <div class="form-section mb-5">
+        <h3 class="section-title mb-3">Add New Client</h3>
+        <form method="post" class="client-form">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-primary">Save</button>
+        </form>
     </div>
-    {% else %}
-    <p>No clients available.</p>
-    {% endif %}
-    <a href="{% url 'accounts:client_add' %}" class="btn btn-success mt-3">Add New Client</a>
+
+    <!-- Edit Client Section -->
+    <div class="form-section mb-5">
+        <h3 class="section-title mb-3">Edit Client Details</h3>
+        <form method="post" class="client-form">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-primary">Save</button>
+        </form>
+    </div>
+
+    <!-- Delete Client Section -->
+    <div class="form-section">
+        <h3 class="section-title mb-3">Delete Client</h3>
+        <div class="list-group">
+            {% for client in clients %}
+            <div class="list-group-item">
+                {{ client.name }} - <a href="{% url 'accounts:client_delete' client.id %}" class="delete-link">Delete</a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
 </div>
+
+{% endblock %}
+
+{% block additional_css %}
+<style>
+    .container {
+        max-width: 600px;
+        margin: auto;
+    }
+    .form-section {
+        background-color: #f7f7f7;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    .section-title {
+        border-bottom: 1px solid #eaeaea;
+        padding-bottom: 10px;
+    }
+    .client-form p {
+        margin-bottom: 10px;
+    }
+    .client-form label {
+        display: block;
+        margin-bottom: .5rem;
+        color: #666;
+    }
+    .client-form input[type=text],
+    .client-form input[type=email],
+    .client-form input[type=tel] {
+        width: 100%;
+        padding: .375rem .75rem;
+        border: 1px solid #ced4da;
+        border-radius: .25rem;
+    }
+    .btn-primary {
+        color: #fff;
+        background-color: #007bff;
+        border-color: #007bff;
+    }
+    .btn-primary:hover {
+        background-color: #0069d9;
+        border-color: #0062cc;
+    }
+    .delete-link {
+        color: #dc3545;
+        text-decoration: none;
+    }
+    .delete-link:hover {
+        text-decoration: underline;
+    }
+    .list-group-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: .75rem 1.25rem;
+        margin-bottom: -1px;
+        background-color: #fff;
+        border: 1px solid rgba(0, 0, 0, .125);
+    }
+</style>
 {% endblock %}
