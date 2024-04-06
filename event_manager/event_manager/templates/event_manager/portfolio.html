@@ -1,0 +1,168 @@
+{% extends 'base_general.html' %} {% load static %}
+<br />
+{% block title %}Our Portfolio{% endblock %}
+<br />
+{% block additional_style %} {% endblock additional_style %} {% block content %}
+<div class="container-fluid" style="background-color: #D0E1FF;">
+    <div class="row justify-content-center py-5">
+      <div class="col-12 text-center py-5">
+        <h1 class="my-5">Our Portfolio</h1>
+      </div>
+    </div>
+</div>
+<div class="container">
+  <h4>Our Team</h4>
+  <div class="d-flex flex-row flex-wrap">
+    <div class="card border-0 mb-5" style="width: 20%">
+      <div class="card-body text-center">
+        <img class="rounded-circle mb-3" style="width: 150px" src="{% static "event_manager/img/Person.png" %}">
+        <p>PHOTOGRAPHER / VIDEOGRAPHER</p>
+      </div>
+    </div>
+    <div class="card border-0 mb-5" style="width: 20%">
+      <div class="card-body text-center">
+        <img class="rounded-circle mb-3" style="width: 150px" src="{% static "event_manager/img/Person.png" %}">
+        <p>DECORATORS</p>
+      </div>
+    </div>
+    <div class="card border-0 mb-5" style="width: 20%">
+      <div class="card-body text-center">
+        <img class="rounded-circle mb-3" style="width: 150px" src="{% static "event_manager/img/Person.png" %}">
+        <p>VENUE PLANNERS</p>
+      </div>
+    </div>
+    <div class="card border-0 mb-5" style="width: 20%">
+      <div class="card-body text-center">
+        <img class="rounded-circle mb-3" style="width: 150px" src="{% static "event_manager/img/Person.png" %}">
+        <p>CHOREOGRAPHERS</p>
+      </div>
+    </div>
+    <div class="card border-0 mb-5" style="width: 20%">
+      <div class="card-body text-center">
+        <img class="rounded-circle mb-3" style="width: 150px" src="{% static "event_manager/img/Person.png" %}">
+        <p>DESIGNERS</p>
+      </div>
+    </div>
+    <div class="card border-0 mb-5" style="width: 20%">
+      <div class="card-body text-center">
+        <img class="rounded-circle mb-3" style="width: 150px" src="{% static "event_manager/img/Person.png" %}">
+        <p>MAKEUP ARTIST</p>
+      </div>
+    </div>
+    <div class="card border-0 mb-5" style="width: 20%">
+      <div class="card-body text-center">
+        <img class="rounded-circle mb-3" style="width: 150px" src="{% static "event_manager/img/Person.png" %}">
+        <p>BAR SERVICES</p>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="container">
+  <h4>Wedding</h4>
+  <div id="carousel1" class="owl-carousel owl-theme">
+    <div class="item"><img class="w-100 my-2" src="{% static "event_manager/img/wedding1.jpg" %}" /><h5>Traditional Wedding</h5></div>
+    <div class="item"><img class="w-100 my-2" src="{% static "event_manager/img/wedding2.jpg" %}" /><h5> Rustic Wedding</h5></div>
+    <div class="item"><img class="w-100 my-2" src="{% static "event_manager/img/wedding3.jpg" %}" /><h5>Destination Wedding:</h5></div>
+    <div class="item"><img class="w-100 my-2" src="{% static "event_manager/img/wedding4.jpg" %}" /><h5>Themed Wedding</h5></div>
+    <div class="item"><img class="w-100 my-2" src="{% static "event_manager/img/wedding1.jpg" %}" /><h5>Traditional Wedding</h5></div>
+    <div class="item"><img class="w-100 my-2" src="{% static "event_manager/img/wedding2.jpg" %}" /><h5> Rustic Wedding</h5></div>
+    <div class="item"><img class="w-100 my-2" src="{% static "event_manager/img/wedding3.jpg" %}" /><h5>Destination Wedding:</h5></div>
+    <div class="item"><img class="w-100 my-2" src="{% static "event_manager/img/wedding4.jpg" %}" /><h5>Themed Wedding</h5></div>
+  </div>
+  <script>
+    $(document).ready(function () {
+      $("#carousel1").owlCarousel({
+        loop: true,
+        margin: 20,
+        autoplay:true,
+        autoplayTimeout:3000,
+        autoplayHoverPause:true,
+        responsive: {
+          0: {
+            items: 1,
+          },
+          600: {
+            items: 3,
+          },
+          1000: {
+            items: 4,
+          },
+        },
+      });
+    });
+  </script>
+</div>
+<div class="container">
+    <h4>Birthday</h4>
+    <div id="carousel2" class="owl-carousel owl-theme">
+      <div class="item"><img class="w-100 my-2" src="{% static "event_manager/img/birthday1.jpg" %}" /><h5>Adventure and Travel</h5></div>
+      <div class="item"><img class="w-100 my-2" src="{% static "event_manager/img/birthday2.jpg" %}" /><h5>For Kids</h5></div>
+      <div class="item"><img class="w-100 my-2" src="{% static "event_manager/img/birthday3.jpg" %}" /><h5>For Adults</h5></div>
+      <div class="item"><img class="w-100 my-2" src="{% static "event_manager/img/birthday1.jpg" %}" /><h5>Adventure and Travel</h5></div>
+      <div class="item"><img class="w-100 my-2" src="{% static "event_manager/img/birthday2.jpg" %}" /><h5>For Kids</h5></div>
+      <div class="item"><img class="w-100 my-2" src="{% static "event_manager/img/birthday3.jpg" %}" /><h5>For Adults</h5></div>
+    </div>
+    <script>
+      $(document).ready(function () {
+        $("#carousel2").owlCarousel({
+          loop: true,
+          margin: 20,
+          autoplay:true,
+          autoplayTimeout:3000,
+          autoplayHoverPause:true,
+          responsive: {
+            0: {
+              items: 1,
+            },
+            600: {
+              items: 3,
+            },
+            1000: {
+              items: 4,
+            },
+          },
+        });
+      });
+    </script>
+</div>
+<div class="container">
+  <div>
+    <h4>Gender Party</h4>
+    <p>View All (22)</p>
+  </div>
+  <div class="w-100">
+    <div id="carousel3" class="owl-carousel owl-theme">
+      <div class="item"><img class="w-100 my-2" src="{% static "event_manager/img/gender1.jpg" %}" /><h5>Balloon Box Surprise</h5></div>
+      <div class="item"><img class="w-100 my-2" src="{% static "event_manager/img/gender2.jpg" %}" /><h5>Colored Cake or Cupcakes</h5></div>
+      <div class="item"><img class="w-100 my-2" src="{% static "event_manager/img/gender3.jpg" %}" /><h5>Piñata</h5></div>
+      <div class="item"><img class="w-100 my-2" src="{% static "event_manager/img/gender4.jpg" %}" /><h5>Smoke Bombs or Powder Cannons</h5></div>
+      <div class="item"><img class="w-100 my-2" src="{% static "event_manager/img/gender1.jpg" %}" /><h5>Balloon Box Surprise</h5></div>
+      <div class="item"><img class="w-100 my-2" src="{% static "event_manager/img/gender2.jpg" %}" /><h5>Colored Cake or Cupcakes</h5></div>
+      <div class="item"><img class="w-100 my-2" src="{% static "event_manager/img/gender3.jpg" %}" /><h5>Piñata</h5></div>
+      <div class="item"><img class="w-100 my-2" src="{% static "event_manager/img/gender4.jpg" %}" /><h5>Smoke Bombs or Powder Cannons</h5></div>
+    </div>
+  </div>
+  <script>
+    $(document).ready(function () {
+      $("#carousel3").owlCarousel({
+        loop: true,
+        margin: 20,
+        autoplay:true,
+        autoplayTimeout:3000,
+        autoplayHoverPause:true,
+        responsive: {
+          0: {
+            items: 1,
+          },
+          600: {
+            items: 3,
+          },
+          1000: {
+            items: 4,
+          },
+        },
+      });
+    });
+  </script>
+</div>
+{% endblock content %}

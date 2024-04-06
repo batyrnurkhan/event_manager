@@ -1,0 +1,90 @@
+{% extends 'base_general.html' %} {% load static %}
+<br />
+{% block title %}About Us{% endblock %}
+<br />
+{% block additional_style %} {% endblock additional_style %} {% block content %}
+<div class="container-fluid" style="background-color: #F4F4F4;">
+  <div class="row justify-content-center py-5">
+    <div class="col-12 text-center py-5">
+      <h1 class="my-4">
+        We bring<br />
+        <strong>dream events</strong><br />
+        to life!
+      </h1>
+    </div>
+  </div>
+</div>
+<div class="container mb-4">
+  <div class="row align-items-center">
+    <div class="col-6">
+        <h3>About Us</h3>
+        <p>We believe in the power of organization to transform businesses and lives. Founded on the principles of efficiency, innovation, and integrity, we specialize in providing comprehensive organizational solutions tailored to meet the diverse needs of our clients.<br/>
+          Our Mission<br/>
+          Our mission is simple yet profound: to empower organizations to reach their full potential by optimizing processes, enhancing productivity, and fostering a culture of excellence. We strive to be the catalyst for positive change, guiding our clients towards sustainable success in an ever-evolving landscape.<br/></p>
+    </div>
+    <div class="col-6">
+        <img class="w-100" src="{% static "event_manager/img/aboutus1.jpg" %}" />
+    </div>
+  </div>
+</div>
+<div class="mb-4" style="background-color: #F4F4F4;">
+  <div class="container py-4">
+    <div class="row">
+      <div class="col-3 text-center">
+        <h1><strong onload="animateValue()" >10,000</strong></h1>
+        <h4>Wedding Vendors</h4>
+      </div>
+      <div class="col-3 text-center">
+        <h1><strong>20,000</strong></h1>
+        <h4>Annual Weddings</h4>
+      </div>
+      <div class="col-3 text-center">
+        <h1><strong>1,000</strong></h1>
+        <h4>Wedding Venues</h4>
+      </div>
+      <div class="col-3 text-center">
+        <h1><strong>1.5 M</strong></h1>
+        <h4>Monthly Followers</h4>
+      </div>
+    </div>
+    <script>
+      function animateValue(id){
+        var obj = document.getElementById(id);
+        var current = parseInt(obj.innerHTML);
+        setInterval(function(){
+          current++;
+          // Update the contents of the element
+          obj.innerHTML = current;
+        },1000);
+      }
+      
+      animateValue('value');
+    </script>
+  </div>
+</div>
+<div class="container mb-4">
+  <div class="row align-items-center">
+    <div class="col-6">
+        <img class="w-100" src="{% static "event_manager/img/aboutus2.png" %}" />
+    </div>
+    <div class="col-6">
+        <h3>What We Offer?</h3>
+        <p>Our team of experienced consultants provides strategic guidance and support to help organizations navigate complex challenges and capitalize on opportunities for improvement. From organizational design to change management, we offer actionable insights and practical solutions to drive meaningful change.</p>
+    </div>
+  </div>
+</div>
+<div class="container mb-4">
+  <div class="row align-items-center">
+    <div class="col-6">
+        <h3>Who We Are?</h3>
+        <p>At our company, we are more than just a service provider—we are your strategic partner in organizational excellence. With a passion for efficiency, innovation, and sustainable growth, we empower businesses to reach their full potential and achieve lasting success in today's dynamic marketplace.<br/>
+          <strong>Our Values</strong><br/>
+          Integrity, Innovation, Collaboration, and Excellence are the pillars that define who we are and how we operate. These core values guide every decision we make and every action we take, ensuring that we always uphold the highest standards of professionalism, ethics, and quality in everything we do.
+          </p>
+    </div>
+    <div class="col-6">
+        <img class="w-100" src="{% static "event_manager/img/aboutus3.png" %}" />
+    </div>
+  </div>
+</div>
+{% endblock content %}

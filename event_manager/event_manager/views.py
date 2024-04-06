@@ -16,10 +16,13 @@ from django.db import transaction
 User = get_user_model()  # Get the custom user model
 
 def home(request):
-    events = Event.objects.all()  # Fetch all events, or use a filter as needed
-    for event in events:
-        event.tickets_left = event.event_tickets - event.event_sold_tickets  # Calculate tickets left for each event
-    return render(request, 'event_manager/home.html', {'events': events})
+    return render(request, 'event_manager/home.html', {'page': "Home"})
+
+def portfolio(request):
+    return render(request, 'event_manager/portfolio.html', {'page': "Our Portfolio"})
+
+def about_us(request):
+    return render(request, 'event_manager/about_us.html', {'page': "About Us"})
 
 from django.contrib.auth.views import LogoutView
 from django.urls import reverse_lazy

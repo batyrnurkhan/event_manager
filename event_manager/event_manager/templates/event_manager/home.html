@@ -1,40 +1,241 @@
-{% extends 'base_general.html' %}
-
+{% extends 'base_general.html' %} {% load static %}
+<br />
 {% block title %}Home{% endblock %}
-
-{% block content %}
+<br />
+{% block additional_style %} {% endblock additional_style %} {% block content %}
+{% comment %}
 <div class="mt-5">
-    <h1 class="text-center mb-4">Welcome to the Event Platform</h1>
-    <div class="row">
-        {% for event in events %}
-            <div class="col-md-4 mb-4">
-                <div class="card h-100 event-card">
-                    <div class="card-body">
-                        <h2 class="card-title">{{ event.event_name }}</h2>
-                        <p class="card-text">{{ event.event_description }}</p>
-                        <p class="card-text">Sponsored by: <strong>{{ event.event_sponsor }}</strong></p>
-                        <p class="card-text">Budget: <strong>${{ event.event_budget }}</strong></p>
-                        <p class="card-text">Participants: <strong>{{ event.event_count_participants }}</strong></p>
-                        <p class="card-text">Tickets left: <strong>{{ event.tickets_left }}</strong></p>
-                    </div>
-                    <div class="card-footer">
-                        {% if user.is_authenticated %}
-                            {% if user in event.participants.all %}
-                                <p class="text-success">You got a ticket!</p>
-                            {% else %}
-                                <form method="post" action="{% url 'events:join_event' slug=event.event_slug %}">
-                                    {% csrf_token %}
-                                    <button type="submit" class="btn btn-primary">Join Event</button>
-                                </form>
-                            {% endif %}
-                        {% endif %}
-                        <a href="{% url 'events:event_detail' event.event_slug %}" class="btn btn-secondary">Details</a>
-                    </div>
+  <h1 class="text-center mb-4">Welcome to the Event Platform</h1>
+  <div class="row">
+    {% for event in events %}
+    <div class="col-md-4 mb-4">
+      <div class="card h-100 event-card">
+        <div class="card-body">
+          <h2 class="card-title">{{ event.event_name }}</h2>
+          <p class="card-text">{{ event.event_description }}</p>
+          <p class="card-text">
+            Sponsored by: <strong>{{ event.event_sponsor }}</strong>
+          </p>
+          <p class="card-text">
+            Budget: <strong>${{ event.event_budget }}</strong>
+          </p>
+          <p class="card-text">
+            Participants: <strong>{{ event.event_count_participants }}</strong>
+          </p>
+          <p class="card-text">
+            Tickets left: <strong>{{ event.tickets_left }}</strong>
+          </p>
+        </div>
+        <div class="card-footer">
+          {% if user.is_authenticated %} {% if user in event.participants.all %}
+          <p class="text-success">You got a ticket!</p>
+          {% else %}
+          <form
+            method="post"
+            action="{% url 'events:join_event' slug=event.event_slug %}"
+          >
+            {% csrf_token %}
+            <button type="submit" class="btn btn-primary">Join Event</button>
+          </form>
+          {% endif %} {% endif %}
+          <a
+            href="{% url 'events:event_detail' event.event_slug %}"
+            class="btn btn-secondary"
+            >Details</a
+          >
+        </div>
+      </div>
+    </div>
+    {% empty %}
+    <p class="text-center">No events available at the moment.</p>
+    {% endfor %}
+  </div>
+</div>
+{% endcomment %}
+<div class="container-fluid bg-light">
+  <form {# TODO action="link" #} method="post">
+    <div class="row justify-content-center py-5">
+      <div class="col-12 text-center">
+        <h1 class="my-5">Welcome!</h1>
+      </div>
+      <div class="col-12 col-lg-3 col-sm-5">
+        <input type="text" class="form-control p-4" placeholder="First name" />
+      </div>
+      <div class="col-12 col-lg-3 col-sm-5">
+        <input
+          type="button"
+          class="btn btn-primary w-100 h-100"
+          value="Submit"
+        />
+      </div>
+    </div>
+  </form>
+</div>
+<div class="container">
+  <h2>Our Services</h2>
+  <div id="carousel1" class="owl-carousel owl-theme">
+    <div class="item"><img class="w-100 my-2" src="{% static "event_manager/img/event-plan 1.jpg" %}" /><h5>Event Planning</h5></div>
+    <div class="item"><img class="w-100 my-2" src="{% static "event_manager/img/download 1.jpg" %}" /><h5> Venue Management</h5></div>
+    <div class="item"><img class="w-100 my-2" src="{% static "event_manager/img/download 2.jpg" %}" /><h5>Catering Services</h5></div>
+    <div class="item"><img class="w-100 my-2" src="{% static "event_manager/img/download 3.jpg" %}" /><h5>Entertainment</h5></div>
+    <div class="item"><img class="w-100 my-2" src="{% static "event_manager/img/event-plan 1.jpg" %}" /><h5>Event Planning</h5></div>
+    <div class="item"><img class="w-100 my-2" src="{% static "event_manager/img/download 1.jpg" %}" /><h5> Venue Management</h5></div>
+    <div class="item"><img class="w-100 my-2" src="{% static "event_manager/img/download 2.jpg" %}" /><h5>Catering Services</h5></div>
+    <div class="item"><img class="w-100 my-2" src="{% static "event_manager/img/download 3.jpg" %}" /><h5>Entertainment</h5></div>
+  </div>
+  <script>
+    $(document).ready(function () {
+      $("#carousel1").owlCarousel({
+        loop: true,
+        margin: 20,
+        autoplay:true,
+        autoplayTimeout:3000,
+        autoplayHoverPause:true,
+        responsive: {
+          0: {
+            items: 1,
+          },
+          600: {
+            items: 3,
+          },
+          1000: {
+            items: 4,
+          },
+        },
+      });
+    });
+  </script>
+</div>
+<div class="container">
+    <h2>Our Portfolio</h2>
+    <div id="carousel2" class="owl-carousel owl-theme">
+      <div class="item"><img class="w-100 my-2" src="{% static "event_manager/img/weding.jpg" %}" /><h5>Wedding</h5></div>
+      <div class="item"><img class="w-100 my-2" src="{% static "event_manager/img/birthday.jpg" %}" /><h5> Birthday</h5></div>
+      <div class="item"><img class="w-100 my-2" src="{% static "event_manager/img/gender-party.jpg" %}" /><h5>Gender Party</h5></div>
+      <div class="item"><img class="w-100 my-2" src="{% static "event_manager/img/corporate.jpg" %}" /><h5>Corporate Event</h5></div>
+      <div class="item"><img class="w-100 my-2" src="{% static "event_manager/img/weding.jpg" %}" /><h5>Wedding</h5></div>
+      <div class="item"><img class="w-100 my-2" src="{% static "event_manager/img/birthday.jpg" %}" /><h5> Birthday</h5></div>
+      <div class="item"><img class="w-100 my-2" src="{% static "event_manager/img/gender-party.jpg" %}" /><h5>Gender Party</h5></div>
+      <div class="item"><img class="w-100 my-2" src="{% static "event_manager/img/corporate.jpg" %}" /><h5>Corporate Event</h5></div>
+    </div>
+    <script>
+      $(document).ready(function () {
+        $("#carousel2").owlCarousel({
+          loop: true,
+          margin: 20,
+          autoplay:true,
+          autoplayTimeout:3000,
+          autoplayHoverPause:true,
+          responsive: {
+            0: {
+              items: 1,
+            },
+            600: {
+              items: 3,
+            },
+            1000: {
+              items: 4,
+            },
+          },
+        });
+      });
+    </script>
+</div>
+<div class="container">
+    <div class="card border-0 rounded-0" style="background-color: #E2EDFF;">
+        <div class="card-body">
+            <div class="row align-items-center">
+                <div class="col-4">
+                    <img class="w-100" src="{% static "event_manager/img/about-us.png" %}" />
+                </div>
+                <div class="col-8">
+                    <h1>About Us</h1>
+                    <p>We believe in the power of organization to transform businesses and lives. Founded on the principles of efficiency, innovation, and integrity, we specialize in providing comprehensive organizational solutions tailored to meet the diverse needs of our clients.</p>
+                    <button class="btn btn-primary text-black float-right">Read more</button>
                 </div>
             </div>
-        {% empty %}
-            <p class="text-center">No events available at the moment.</p>
-        {% endfor %}
+        </div>
     </div>
 </div>
-{% endblock %}
+<div class="container mb-5">
+    <h4>Reviews</h4>
+    <div id="carousel3" class="owl-carousel owl-theme">
+      <div class="item text-center">
+        <h5 class="my-4">David John</h5>
+        <div class="card border-0 my-4" style="background-color: #6495ED;">
+            <div class="card-body">
+                “If you’re in search of a reliable, innovative organization company, look . Their team of seasoned professionals consistently exceeds expectations, offering cutting-edge solutions and exceptional customer service. They took the time to understand our specific needs and provided a tailor-made solution that greatly improved our operations. We are thrilled with the results and highly recommend for any organization needs.”
+            </div>
+        </div>
+      </div>
+      <div class="item text-center">
+        <h5 class="my-4">David John</h5>
+        <div class="card border-0 my-4" style="background-color: #6495ED;">
+            <div class="card-body">
+                “If you’re in search of a reliable, innovative organization company, look . Their team of seasoned professionals consistently exceeds expectations, offering cutting-edge solutions and exceptional customer service. They took the time to understand our specific needs and provided a tailor-made solution that greatly improved our operations. We are thrilled with the results and highly recommend for any organization needs.”
+            </div>
+        </div>
+      </div>
+      <div class="item text-center">
+        <h5 class="my-4">David John</h5>
+        <div class="card border-0 my-4" style="background-color: #6495ED;">
+            <div class="card-body">
+                “If you’re in search of a reliable, innovative organization company, look . Their team of seasoned professionals consistently exceeds expectations, offering cutting-edge solutions and exceptional customer service. They took the time to understand our specific needs and provided a tailor-made solution that greatly improved our operations. We are thrilled with the results and highly recommend for any organization needs.”
+            </div>
+        </div>
+      </div>
+      <div class="item text-center">
+        <h5 class="my-4">David John</h5>
+        <div class="card border-0 my-4" style="background-color: #6495ED;">
+            <div class="card-body">
+                “If you’re in search of a reliable, innovative organization company, look . Their team of seasoned professionals consistently exceeds expectations, offering cutting-edge solutions and exceptional customer service. They took the time to understand our specific needs and provided a tailor-made solution that greatly improved our operations. We are thrilled with the results and highly recommend for any organization needs.”
+            </div>
+        </div>
+      </div>
+    </div>
+    <script>
+      $(document).ready(function () {
+        $("#carousel3").owlCarousel({
+          loop: true,
+          margin: 20,
+          autoplay:true,
+          autoplayTimeout:3000,
+          autoplayHoverPause:true,
+          responsive: {
+            0: {
+              items: 1,
+            },
+            600: {
+              items: 1,
+            },
+            1000: {
+              items: 1,
+            },
+          },
+        });
+      });
+    </script>
+</div>
+<div class="container mb-5">
+    <h4>Contact Us</h4>
+    <form {# TODO action="link" #} method="post">
+        <div class="form-group">
+          <label for="name">Name</label>
+          <input type="text" class="form-control" id="name">
+        </div>
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" class="form-control" id="email">
+        </div>
+        <div class="form-group">
+          <label for="phone">Phone number</label>
+          <input type="text" class="form-control" id="phone">
+        </div>
+        <div class="form-group">
+          <label for="message">Message</label>
+          <textarea class="form-control" id="message" rows="5"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>
+{% endblock content %}
