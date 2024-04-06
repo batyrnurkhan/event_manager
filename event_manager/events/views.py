@@ -6,13 +6,18 @@ from django.views.generic import CreateView
 from .forms import EventForm
 from .models import Event
 from django.contrib import messages
+import logging
 
+logger = logging.getLogger(__name__)
 @login_required
 def join_event(request, slug):
+    logger.debug(f"Attempting to join event with slug: {slug}")
     event = get_object_or_404(Event, event_slug=slug)
     message = event.join_event(request.user)
     messages.add_message(request, messages.INFO, message)
-    return redirect('events:event_detail', slug=slug)
+    logger.debug(f"Redirecting to payment for event: {slug}")
+    return redirect('events:start_payment', slug=slug)
+
 
 def all_events(request):
     events = Event.objects.all()  # Retrieve all events
@@ -82,7 +87,7 @@ class DashboardEventDetailView(DetailView):
 
 class DashboardEventDeleteView(DeleteView):
     model = Event
-    success_url = reverse_lazy('events:dashboard_event_list')
+    success_url = reverse_lazy('events/dashboard_event_list')
     template_name = 'events/dashboard_event_confirm_delete.html'
 
 class DashboardEventUpdateView(UpdateView):
@@ -90,3 +95,54 @@ class DashboardEventUpdateView(UpdateView):
     form_class = EventForm
     template_name = 'events/dashboard_event_form.html'
     success_url = reverse_lazy('events:dashboard_event_list')
+
+import stripe
+from django.conf import settings
+from django.shortcuts import redirect
+
+stripe.api_key = settings.STRIPE_SECRET_KEY
+
+@login_required
+def start_payment(request, slug):
+    logger.debug(f"Starting payment process for slug: {slug}")
+
+    event = get_object_or_404(Event, event_slug=slug)
+
+    try:
+        # Create a new Stripe Checkout Session
+        session = stripe.checkout.Session.create(
+            payment_method_types=['card'],
+            line_items=[{
+                'price_data': {
+                    'currency': 'usd',
+                    'product_data': {
+                        'name': event.name,
+                    },
+                    'unit_amount': event.price_in_cents,
+                },
+                'quantity': 1,
+            }],
+            mode='payment',
+            success_url=request.build_absolute_uri('/payment_success/'),
+            cancel_url=request.build_absolute_uri('/payment_cancelled/'),
+        )
+        logger.debug(f"Redirecting to Stripe Checkout URL: {session.url}")
+        return redirect(session.url, code=303)
+    except Exception as e:
+        messages.error(request, "An error occurred: {}".format(e))
+        return redirect('events:event_detail', slug=slug)
+
+
+from django.shortcuts import render
+from django.contrib import messages
+
+def payment_success(request):
+    # Logic to handle a successful payment
+    # For example, you might want to update an order status in your database
+    messages.success(request, "Your payment was successful!")
+    return render(request, 'payment_success.html')
+
+def payment_cancelled(request):
+    # Logic to handle a cancelled payment
+    messages.warning(request, "Your payment was cancelled.")
+    return render(request, 'payment_cancelled.html')

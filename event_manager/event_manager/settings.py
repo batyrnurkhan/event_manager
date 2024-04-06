@@ -174,3 +174,37 @@ REST_FRAMEWORK = {
 }
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+import os
+
+STRIPE_SECRET_KEY = 'sk_test_51P2VvS03j5Z0KiaaYyPH2J9oJSSf5yT4mXE7Usdz4jfW4gg7vU6a5xeObHSo133GATgn5LqzBtKXOPdjIqPyTI3R009ukOAJR4'
+STRIPE_PUBLISHABLE_KEY = 'pk_test_51P2VvS03j5Z0KiaaocSX2JFmQx2SCZ9X0Rd4oRwdLYvn5091QEb8rHaHhsOchu0Hv0LBh7cGrlxgg6Dhg1nKaG0E00pAsVa4tz'
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'loggers': {
+        '': {  # 'root' logger
+            'handlers': ['console'],
+            'level': 'DEBUG',
+            'propagate': False,
+        },
+        'django': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+            'propagate': False,
+        },
+        # Configure your app's logger:
+        'events': {  # Replace 'your_app_name' with the name of your Django app
+            'handlers': ['console'],
+            'level': 'DEBUG',
+        },
+    },
+}
+
