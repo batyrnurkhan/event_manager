@@ -123,8 +123,8 @@
             <a class="nav-link" href="{% url 'about_us' %}">About us</a>
           </li>
           <li class="nav-item px-2">
-            <a class="nav-link" href="#">Contact us</a>
-          </li>
+    <a class="nav-link" href="/#contact-us-section" onclick="scrollToContactUs(event)">Contact us</a>
+</li>
         </ul>
         <ul class="navbar-nav ml-auto">
           {% if user.is_authenticated %}
@@ -134,7 +134,7 @@
               <button type="submit" class="btn btn-primary">Sign out</button>
             </form>
           </li>
-          {% if user.is_superuser %}
+          {% if user.is_authenticated %}
           <li class="nav-item">
             <a href="{% url 'dashboard' %}" class="nav-link">Dashboard</a>
           </li>
@@ -177,7 +177,8 @@
             <h5>Quick links</h5>
             <a class="text-dark">About Us</a><br/>
             <a class="text-dark">Careers</a><br/>
-            <a class="text-dark">Contact Us</a><br/>
+
+            <a class="text-dark" href="/#contact-us-section" onclick="scrollToContactUs(event)">Contact Us</a><br/>
             <a class="text-dark">Privacy Policy</a><br/>
             <a class="text-dark">Terms & Conditions</a><br/>
           </div>
@@ -188,5 +189,23 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="{% static "owl_carousel/owl.carousel.min.js" %}"></script>
+  <script>
+    function scrollToContactUs(event) {
+    // Prevent the default anchor link behavior
+    event.preventDefault();
+
+    // Check if the #contact-us-section exists on this page
+    const contactUsSection = document.getElementById('contact-us-section');
+    if (contactUsSection) {
+        // If the section exists on the current page, smooth scroll to it
+        contactUsSection.scrollIntoView({ behavior: 'smooth' });
+    } else {
+        // If it doesn't exist, redirect to the home page (or specific page) and then scroll to the section
+        // Adjust '/home.html' to the correct path if necessary
+        window.location.href = '/#contact-us-section';
+    }
+}
+
+  </script>
   </body>
 </html>

@@ -190,9 +190,9 @@ def contact_view(request):
         form = ContactForm(request.POST)
         if form.is_valid():
             form.save()
-            # return redirect('success_url')  # Redirect to a new URL
+            form = ContactForm()  # Reset form after saving
+            # Optionally, add a message indicating success
     else:
         form = ContactForm()
-    return render(request, 'accounts/contact.html', {'form': form})
-
+    return render(request, 'event_manager/home.html', {'form': form})
 

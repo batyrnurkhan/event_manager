@@ -13,3 +13,7 @@ class EventForm(forms.ModelForm):
         widgets = {
             'event_description': forms.Textarea(attrs={'rows': 4}),
         }
+
+
+class AddParticipantForm(forms.Form):
+    username = forms.CharField(label='Username', max_length=150)

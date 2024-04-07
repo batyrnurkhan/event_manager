@@ -6,16 +6,12 @@ from django.views.generic import CreateView
 from .forms import EventForm
 from .models import Event
 from django.contrib import messages
-import logging
 
-logger = logging.getLogger(__name__)
 @login_required
 def join_event(request, slug):
-    logger.debug(f"Attempting to join event with slug: {slug}")
     event = get_object_or_404(Event, event_slug=slug)
     message = event.join_event(request.user)
     messages.add_message(request, messages.INFO, message)
-    logger.debug(f"Redirecting to payment for event: {slug}")
     return redirect('events:start_payment', slug=slug)
 
 
@@ -104,7 +100,6 @@ stripe.api_key = settings.STRIPE_SECRET_KEY
 
 @login_required
 def start_payment(request, slug):
-    logger.debug(f"Starting payment process for slug: {slug}")
 
     event = get_object_or_404(Event, event_slug=slug)
 
@@ -126,7 +121,6 @@ def start_payment(request, slug):
             success_url=request.build_absolute_uri('/payment_success/'),
             cancel_url=request.build_absolute_uri('/payment_cancelled/'),
         )
-        logger.debug(f"Redirecting to Stripe Checkout URL: {session.url}")
         return redirect(session.url, code=303)
     except Exception as e:
         messages.error(request, "An error occurred: {}".format(e))
@@ -137,12 +131,87 @@ from django.shortcuts import render
 from django.contrib import messages
 
 def payment_success(request):
-    # Logic to handle a successful payment
     # For example, you might want to update an order status in your database
     messages.success(request, "Your payment was successful!")
     return render(request, 'payment_success.html')
 
 def payment_cancelled(request):
-    # Logic to handle a cancelled payment
     messages.warning(request, "Your payment was cancelled.")
     return render(request, 'payment_cancelled.html')
+
+class MyEventsListView(LoginRequiredMixin, ListView):
+    model = Event
+    template_name = 'events/my_events_list.html'  # ensure this template exists
+    context_object_name = 'events'
+
+    def get_queryset(self):
+        # Return only events organized by the current user
+        return Event.objects.filter(event_organizer=self.request.user)
+
+
+class MyEventDetailView(DetailView):
+    model = Event
+    template_name = 'events/my_event_detail.html'
+    context_object_name = 'event'
+    slug_field = 'event_slug'  # Specify the model's slug field here
+    slug_url_kwarg = 'slug'  # The name of the URLconf keyword argument that contains the slug
+
+    def get_object(self, queryset=None):
+        # Optionally override this method if more custom behavior is needed
+        slug = self.kwargs.get(self.slug_url_kwarg)
+        return get_object_or_404(self.get_queryset(), event_slug=slug)
+
+from django.views.generic.edit import UpdateView
+from .models import Event
+from .forms import EventForm
+
+
+class MyEventUpdateView(UpdateView):
+    model = Event
+    form_class = EventForm
+    template_name = 'events/my_event_form.html'
+
+    def get_object(self, queryset=None):
+        # Use 'event_slug' from the URL to find the Event object
+        slug = self.kwargs.get('slug')
+        return get_object_or_404(Event, event_slug=slug)
+
+    def get_success_url(self):
+        # Dynamically generate the success URL to include the event's slug
+        event_slug = self.get_object().event_slug
+        return reverse_lazy('events:my_event_detail', kwargs={'slug': event_slug})
+
+from django.http import JsonResponse
+from accounts.models import CustomUser
+def add_participant_to_event(request, event_slug):
+    if request.method == 'POST':
+        event = get_object_or_404(Event, event_slug=event_slug)
+        # Only allow the event organizer to add participants
+        if request.user != event.event_organizer:
+            messages.error(request, "You are not authorized to add participants to this event.")
+            return redirect('events:my_event_detail', slug=event_slug)
+
+        username = request.POST.get('username')
+        try:
+            user = CustomUser.objects.get(username=username)
+            event.participants.add(user)
+            messages.success(request, f"{username} has been added as a participant.")
+        except CustomUser.DoesNotExist:
+            messages.error(request, "User does not exist.")
+
+    return redirect('events:my_event_detail', slug=event_slug)
+
+
+from django.views.decorators.http import require_POST
+
+
+@login_required
+def remove_participant(request, event_slug, user_id):
+    event = get_object_or_404(Event, event_slug=event_slug, event_organizer=request.user)
+    user = get_object_or_404(CustomUser, id=user_id)
+
+    # Check if the user is the event organizer
+    if request.user == event.event_organizer:
+        event.participants.remove(user)
+
+    return redirect('events:my_event_detail', slug=event_slug)

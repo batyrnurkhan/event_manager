@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-5">
+    <div class="card">
+        <div class="card-body">
+            <h2 class="card-title">{{ event.event_name }}</h2>
+            <p class="card-text"><strong>Description:</strong> {{ event.event_description }}</p>
+            <p class="card-text"><strong>Organizer:</strong> {{ event.event_organizer.username }}</p>
+            <!-- Displaying Participants -->
+             <div class="participants">
+        <h5>Participants:</h5>
+        <ul class="list-group list-group-flush" id="participant-list">
+            {% for participant in event.participants.all %}
+<li class="list-group-item">
+    {{ participant.username }}
+    <a href="{% url 'events:remove_participant' event_slug=event.event_slug user_id=participant.id %}" class="btn btn-danger btn-sm">Remove</a>
+</li>
+{% endfor %}
+        </ul>
+        <form method="post" action="{% url 'events:add_participant' event_slug=event.event_slug %}">
+    {% csrf_token %}
+    <div class="input-group mb-3">
+        <input type="text" name="username" class="form-control" placeholder="Username" required>
+        <div class="input-group-append">
+            <button class="btn btn-outline-secondary" type="submit">Add Participant</button>
+        </div>
+    </div>
+</form>
+    </div>
+        </div>
+        <div class="card-footer text-muted">
+            <a href="{% url 'events:my_event_edit' slug=event.event_slug %}" class="btn btn-primary">Edit This Event</a>
+        </div>
+    </div>
+</div>
+<script>
+// JavaScript to handle adding and removing participants
+
+function addParticipant() {
+    var username = $('#new-participant-username').val();
+    // AJAX call to add participant
+    $.post('/events/add-participant/', {
+        username: username,
+        event_id: "{{ event.id }}",
+        csrfmiddlewaretoken: '{{ csrf_token }}'
+    }, function(data) {
+        if (data.success) {
+            // Append new participant to the list
+            $('#participant-list').append('<li class="list-group-item" id="participant-' + data.user_id + '">' + username + '<button onclick="removeParticipant(' + data.user_id + ', \'' + username + '\');" class="btn btn-danger btn-sm float-right">Remove</button></li>');
+            $('#new-participant-username').val(''); // Clear input
+        } else {
+            alert(data.error);
+        }
+    });
+}
+</script>
+<script>
+function removeParticipant(userId, username) {
+    if (!confirm('Remove ' + username + '?')) return;
+
+    $.ajax({
+        url: '/remove-participant/',  // Adjust if you have a different URL structure
+        type: 'POST',
+        data: {
+            'user_id': userId,
+            'event_id': "{{ event.id }}",
+            'csrfmiddlewaretoken': $('input[name="csrfmiddlewaretoken"]').val()
+        },
+        success: function(data) {
+            if (data.success) {
+                $('#participant-' + data.user_id).remove();
+                alert(username + ' has been removed');
+            } else {
+                alert('Error removing participant. Please try again.');
+            }
+        }
+    });
+}
+</script>
+
+{% endblock %}

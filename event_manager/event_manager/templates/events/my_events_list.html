@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>My Events</h2>
+    <div class="list-group">
+        {% for event in events %}
+        <a href="{% url 'events:my_event_detail' slug=event.event_slug %}" class="list-group-item list-group-item-action">
+            {{ event.event_name }}
+                    <a href="{% url 'events:my_event_edit' slug=event.event_slug %}" class="btn btn-secondary btn-sm">Edit</a>
+
+        </a>
+        {% endfor %}
+    </div>
+</div>
+<style>
+/* Container Styling */
+.container {
+    max-width: 800px; /* Adjusts max width for optimal reading */
+    margin-top: 40px; /* More space from the top */
+}
+
+/* Button Styling */
+.btn-primary {
+    font-weight: 500; /* Medium font weight for a more pronounced look */
+    padding: 10px 20px; /* Generous padding for a larger clickable area */
+    border-radius: 20px; /* Rounded corners for a modern, friendly appearance */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    transition: background-color 0.3s, box-shadow 0.3s; /* Smooth transition for hover effects */
+}
+
+.btn-primary:hover {
+    background-color: #0056b3; /* Slightly darker on hover for visual feedback */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Enhanced shadow on hover */
+}
+
+/* List Group Styling */
+.list-group-item {
+    border-radius: 15px; /* Rounded corners for list items */
+    margin-bottom: 10px; /* Space between list items */
+    padding: 15px 20px; /* Increased padding for more space inside */
+    border: 1px solid #e1e1e1; /* Subtle border color */
+    background-color: #f8f9fa; /* Soft background color */
+    transition: transform 0.2s, box-shadow 0.2s; /* Smooth transition for interactive states */
+}
+
+.list-group-item-action:hover {
+    transform: translateY(-2px); /* Slight raise effect on hover */
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
+    text-decoration: none; /* Removes underline from links */
+}
+
+/* Adjusts link color for list items to improve readability and contrast */
+.list-group-item-action {
+    color: #495057; /* Darker text color for better readability */
+}
+</style>
+
+{% endblock %}
