@@ -178,5 +178,6 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 import os
 
-#
+STRIPE_SECRET_KEY = 'd'
+STRIPE_PUBLISHABLE_KEY = 'd'
 
