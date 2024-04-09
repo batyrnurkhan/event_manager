@@ -15,12 +15,13 @@ def join_event(request, slug):
     return redirect('events:start_payment', slug=slug)
 
 
+@login_required
 def all_events(request):
-    search_query = request.GET.get('search', '')
-    if search_query:
-        events = Event.objects.filter(event_name__icontains=search_query)
-    else:
+    if request.user.is_superuser:
         events = Event.objects.all()
+    else:
+        # If the user is not a superuser, filter events they are organizing or participating in
+        events = Event.objects.filter(event_organizer=request.user) # or use participants for joined events
     return render(request, 'event_manager/home.html', {'events': events})
 
 def event_detail(request, slug):
@@ -55,6 +56,12 @@ class DashboardEventListView(ListView):
     model = Event
     template_name = 'events/dashboard_event_list.html'
     context_object_name = 'events'
+
+    def get_queryset(self):
+        if self.request.user.is_superuser:
+            return Event.objects.all()
+        else:
+            return Event.objects.filter(event_organizer=self.request.user)
 
 
 from django.views.generic import DetailView

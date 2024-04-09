@@ -44,14 +44,25 @@ from events.models import Participant  # Make sure to import the Participant mod
 
 @login_required
 def dashboard(request):
-    events = Event.objects.all()
+    # Check if the user is a superuser
+    if request.user.is_superuser:
+        events = Event.objects.all()
+    else:
+        # For regular users, filter events they are organizing
+        events = Event.objects.filter(event_organizer=request.user)
+
     today = timezone.localdate()
 
+    # For total tickets sold today, consider only events of interest (filtered by user)
     total_tickets_sold_today = Participant.objects.filter(
-        date_joined__date=today
+        date_joined__date=today,
+        event__in=events  # Ensure we're only counting tickets for relevant events
     ).count()
 
+    # Aggregate functions will automatically respect the events queryset filtering
     total_tickets_sold = events.aggregate(Sum('event_sold_tickets'))['event_sold_tickets__sum'] or 0
+
+    # Calculate total profit, considering only the filtered events
     total_profit = sum([event.calculate_profit() for event in events])
 
     context = {
@@ -62,7 +73,6 @@ def dashboard(request):
         'total_profit': total_profit,
     }
     return render(request, 'admin/dashboard.html', context)
-
 
 
 
