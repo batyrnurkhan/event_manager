@@ -212,6 +212,12 @@ def remove_participant(request, event_slug, user_id):
 
     # Check if the user is the event organizer
     if request.user == event.event_organizer:
-        event.participants.remove(user)
+        if user in event.participants.all():
+            event.participants.remove(user)
+            # Decrement the event_count_participants and event_sold_tickets here
+            event.event_count_participants = max(0, event.event_count_participants - 1)
+            event.event_sold_tickets = max(0, event.event_sold_tickets - 1)
+            event.event_sold_out = False  # Optionally reconsider the sold out status
+            event.save()
 
     return redirect('events:my_event_detail', slug=event_slug)

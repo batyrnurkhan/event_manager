@@ -34,7 +34,7 @@
                 {% for user in participants %}
                 <li>
                     {{ user.username }}
-                    <a href="{% url 'remove_participant' event_slug=event.event_slug user_id=user.id %}">Remove</a>
+                    <a href="{% url 'events:remove_participant' event_slug=event.event_slug user_id=user.id %}">Remove</a>
                 </li>
                 {% endfor %}
             </ul>
