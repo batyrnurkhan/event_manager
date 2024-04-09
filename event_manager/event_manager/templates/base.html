@@ -121,7 +121,7 @@
                             Events Management
                         </button>
                         <div class="dropdown-menu" aria-labelledby="eventsManagementDropdown">
-                            <a class="dropdown-item" href="{% url 'events:my_events_list' %}">List Events</a>
+                            <a class="dropdown-item" href="{% url 'events:my_events_list' %}">My Events</a>
                                         {% if user.is_superuser %}
 
                             <a class="dropdown-item" href="{% url 'events:dashboard_event_list' %}">List Events</a>
