@@ -7,7 +7,7 @@ def add_invoice(request):
         form = InvoiceForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('home')
+            return redirect('invoice:list_invoices')
     else:
         form = InvoiceForm()
     return render(request, 'invoice/add_invoice.html', {'form': form})
