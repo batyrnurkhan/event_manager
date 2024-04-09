@@ -98,6 +98,17 @@
     background-color: #f8f9fa; /* Light grey background */
     border: 1px solid #dee2e6; /* Add a border */
 }
+.py-5{
+    background: url("{% static 'event_manager/img/HomePageBackground.png' %}") no-repeat;
+    background-size: 100%;
+    padding: 10rem !important;
+    background-position-y: center;
+}
+.start_button{
+    color: #050505;
+    background: white;
+    padding: 11px 35px;
+}
 /* Responsive adjustments */
 @media (max-width: 768px) {
     #searchResults {
@@ -108,19 +119,22 @@
   <form {# TODO action="link" #} method="post">
     <div class="row justify-content-center py-5">
       <div class="col-12 text-center">
-        <h1 class="my-5">Welcome!</h1>
+        <h1 class="my-5" style="color: white;font-size: 64px">Welcome!</h1>
+          <a href="/" class="btn start_button">Start</a>
       </div>
+
+    </div>
       <form id="searchForm">
     {% csrf_token %}
     <div class="container">
         <div class="row justify-content-center">
             <!-- Search input column -->
-            <div class="col-12 col-lg-3 col-sm-5">
-                <input type="text" class="form-control p-4" name="search" id="searchInput" placeholder="Search events by name" onkeyup="searchEvents()">
+            <div class="col-12 col-lg-6 col-sm-5">
+                <input type="text" class="form-control p-4" name="search" id="searchInput" style="border-radius: 30px" onkeyup="searchEvents()">
             </div>
             <!-- Submit button column, same row as search input -->
-            <div class="col-12 col-lg-3 col-sm-5">
-                <input type="button" class="btn btn-primary w-100 h-100" value="Submit" onclick="searchEvents()">
+            <div class="col-12 col-lg-6 col-sm-5">
+                <input type="button" class="btn btn-dark w-100 h-100 " style="border-radius: 30px" value="Search" onclick="searchEvents()">
             </div>
         </div>
         <!-- New row for search results -->
@@ -131,7 +145,6 @@
         </div>
     </div>
 </form>
-    </div>
   </form>
 </div>
 <div class="container">
