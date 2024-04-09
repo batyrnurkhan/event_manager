@@ -55,21 +55,82 @@
 </div>
 {% endcomment %}
 <div class="container-fluid bg-light">
+    <style>
+#searchResults {
+    border: none; /* No border by default */
+    background-color: transparent;
+    border-radius: 0.25rem; /* Slight rounding of corners */
+    padding: 1rem; /* Add some padding */
+    margin-top: 1rem; /* Add some space between the search form and the results */
+    max-height: 300px; /* Limit the height of the results container */
+    overflow-y: auto; /* Allow scrolling within the container */
+}
+
+#searchResults h5 {
+    font-size: 1.25rem; /* Increase font size of the event title */
+    margin-top: 0.5rem; /* Add some space above the title */
+    margin-bottom: 0.25rem; /* Reduce space below the title */
+}
+
+#searchResults p {
+    font-size: 1rem; /* Standard font size for the description */
+    margin-bottom: 0.5rem; /* Add some space below the description */
+}
+
+#searchResults a {
+    display: inline-block; /* Make the links inline blocks */
+    background-color: #007bff; /* Bootstrap primary color */
+    color: white;
+    padding: 0.375rem 0.75rem;
+    margin-top: 0.25rem;
+    border-radius: 0.25rem; /* Slight rounding of corners */
+    text-decoration: none; /* Remove underline from links */
+    font-size: 1rem;
+    transition: background-color 0.15s ease-in-out; /* Smooth transition for hover effect */
+}
+
+#searchResults a:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+    color: white;
+    text-decoration: none; /* Ensure no underline on hover */
+}
+.has-results {
+    background-color: #f8f9fa; /* Light grey background */
+    border: 1px solid #dee2e6; /* Add a border */
+}
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    #searchResults {
+        padding: 0.5rem;
+    }
+}
+</style>
   <form {# TODO action="link" #} method="post">
     <div class="row justify-content-center py-5">
       <div class="col-12 text-center">
         <h1 class="my-5">Welcome!</h1>
       </div>
-      <div class="col-12 col-lg-3 col-sm-5">
-        <input type="text" class="form-control p-4" placeholder="First name" />
-      </div>
-      <div class="col-12 col-lg-3 col-sm-5">
-        <input
-          type="button"
-          class="btn btn-primary w-100 h-100"
-          value="Submit"
-        />
-      </div>
+      <form id="searchForm">
+    {% csrf_token %}
+    <div class="container">
+        <div class="row justify-content-center">
+            <!-- Search input column -->
+            <div class="col-12 col-lg-3 col-sm-5">
+                <input type="text" class="form-control p-4" name="search" id="searchInput" placeholder="Search events by name" onkeyup="searchEvents()">
+            </div>
+            <!-- Submit button column, same row as search input -->
+            <div class="col-12 col-lg-3 col-sm-5">
+                <input type="button" class="btn btn-primary w-100 h-100" value="Submit" onclick="searchEvents()">
+            </div>
+        </div>
+        <!-- New row for search results -->
+        <div class="row justify-content-center">
+            <div class="col-12">
+                <div id="searchResults" class="mt-3"></div>
+            </div>
+        </div>
+    </div>
+</form>
     </div>
   </form>
 </div>
@@ -253,5 +314,73 @@
         }
     }
 });
+</script>
+<script>
+function searchEvents() {
+    var input = document.getElementById('searchInput').value;
+    var resultsContainer = document.getElementById('searchResults');
+
+    // Clear previous results
+    resultsContainer.innerHTML = '';
+
+    // Simple validation to avoid empty queries
+    if(input.length < 1) {
+        resultsContainer.innerHTML = '<div>Please enter a search term.</div>';
+        return;
+    }
+
+    // Fetch results from the server
+    fetch(`/events/search/?q=${input}`)  // Update the fetch URL to match your search endpoint
+        .then(response => response.json())
+        .then(data => {
+            if(data.events.length > 0) {
+                data.events.forEach(event => {
+                    var div = document.createElement('div');
+                    div.innerHTML = `
+                        <h5>${event.event_name}</h5>
+                        <p>${event.event_description}</p>
+                        <a href="/events/${event.event_slug}/">View Details</a>
+                    `;
+                    resultsContainer.appendChild(div);
+                });
+            } else {
+                resultsContainer.innerHTML = '<div>No events found.</div>';
+            }
+        })
+        .catch(error => console.error('Error:', error));
+}
+</script>
+<script>
+    function searchEvents() {
+    var input = document.getElementById('searchInput').value;
+    var resultsContainer = document.getElementById('searchResults');
+
+    // Clear previous results
+    resultsContainer.innerHTML = '';
+    resultsContainer.classList.remove('has-results'); // Remove the class when starting a new search
+
+    // Fetch results from the server
+    fetch(`/events/search/?q=${input}`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.events && data.events.length > 0) {
+                resultsContainer.classList.add('has-results'); // Add the class when there are results
+                data.events.forEach(event => {
+                    var div = document.createElement('div');
+                    div.innerHTML = `
+                        <h5>${event.event_name}</h5>
+                        <p>${event.event_description}</p>
+                        <a href="/events/${event.event_slug}/">View Details</a>
+                    `;
+                    resultsContainer.appendChild(div);
+                });
+            } else {
+                resultsContainer.innerHTML = '<div>No events found.</div>';
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+}
 </script>
 {% endblock content %}

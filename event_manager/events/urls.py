@@ -1,7 +1,7 @@
 from django.urls import path
 from .views import all_events, event_detail, join_event, AddEventView, \
     start_payment, payment_success, payment_cancelled, MyEventsListView, \
-    MyEventDetailView, MyEventUpdateView  # Make sure to define add_event view
+    MyEventDetailView, MyEventUpdateView, event_search  # Make sure to define add_event view
 from .views import (DashboardEventListView, DashboardEventDetailView,
                     DashboardEventDeleteView, DashboardEventUpdateView, add_participant_to_event,remove_participant)
 app_name = 'events'
@@ -12,6 +12,7 @@ urlpatterns = [
     path('my-events/edit/<slug:slug>/', MyEventUpdateView.as_view(), name='my_event_edit'),
     path('events/<slug:event_slug>/add-participant/', add_participant_to_event, name='add_participant'),
     path('events/<slug:event_slug>/remove-participant/<int:user_id>/', remove_participant, name='remove_participant'),
+    path('search/', event_search, name='event_search'),
 
     path('', all_events, name='all_events'),
     path('add/', AddEventView.as_view(), name='add_event'),

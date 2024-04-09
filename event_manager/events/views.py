@@ -16,7 +16,11 @@ def join_event(request, slug):
 
 
 def all_events(request):
-    events = Event.objects.all()  # Retrieve all events
+    search_query = request.GET.get('search', '')
+    if search_query:
+        events = Event.objects.filter(event_name__icontains=search_query)
+    else:
+        events = Event.objects.all()
     return render(request, 'event_manager/home.html', {'events': events})
 
 def event_detail(request, slug):
@@ -221,3 +225,15 @@ def remove_participant(request, event_slug, user_id):
             event.save()
 
     return redirect('events:my_event_detail', slug=event_slug)
+
+
+def event_search(request):
+    query = request.GET.get('q', '')
+    if query:
+        events = Event.objects.filter(event_name__icontains=query).values('event_name', 'event_description',
+                                                                          'event_slug')  # Adjust fields as necessary
+    else:
+        events = Event.objects.none().values('event_name', 'event_description', 'event_slug')
+
+    events_list = list(events)
+    return JsonResponse({'events': events_list})
