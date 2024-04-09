@@ -1,10 +1,56 @@
 {% extends 'base_general.html' %}
 
 {% block content %}
-<h2>Are you sure you want to delete "{{ object.user.get_full_name }}"?</h2>
-<form method="post">
-    {% csrf_token %}
-    <button type="submit">Confirm</button>
-</form>
-<a href="{% url 'accounts:client_list' %}">Cancel</a>
+<style>
+    .delete-confirmation {
+        max-width: 600px;
+        margin: auto;
+        text-align: center;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0,0,0,.1);
+        background-color: #fff;
+    }
+    .delete-confirmation h2 {
+        color: #333;
+        margin-bottom: 30px;
+    }
+    .confirmation-form {
+        margin-bottom: 20px;
+    }
+    .btn-confirm, .btn-cancel {
+        text-decoration: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        border: none;
+        color: #fff;
+        cursor: pointer;
+        font-size: 16px;
+    }
+    .btn-confirm {
+        background-color: #dc3545;
+    }
+    .btn-cancel {
+        background-color: #6c757d;
+        display: inline-block;
+    }
+    .btn-confirm:hover {
+        background-color: #c82333;
+    }
+    .btn-cancel:hover {
+        background-color: #5a6268;
+    }
+</style>
+<div class="delete-confirmation">
+    <h2>Are you sure you want to delete "{{ client.user.username }}"?</h2>
+    <form method="post" class="confirmation-form">
+        {% csrf_token %}
+        <button type="submit" class="btn-confirm">Confirm</button>
+    </form>
+    <a href="{% url 'accounts:client_list' %}" class="btn-cancel">Cancel</a>
+</div>
+{% endblock %}
+
+{% block additional_css %}
+
 {% endblock %}
