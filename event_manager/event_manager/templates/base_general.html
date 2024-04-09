@@ -93,6 +93,7 @@
     </style>
   </head>
   <body>
+
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <nav class="navbar navbar-expand-lg navbar-light pb-0">
     <div class="container">
@@ -135,9 +136,9 @@
           {% if user.is_authenticated %}
           <li class="nav-item">
             <form action="{% url 'logout' %}" method="post" class="form-inline">
-              {% csrf_token %}
-              <button type="submit" class="btn btn-primary">Sign out</button>
-            </form>
+  {% csrf_token %}
+  <button type="submit" class="btn btn-primary">Sign out</button>
+</form>
           </li>
           {% else %}
           <li class="nav-item">
