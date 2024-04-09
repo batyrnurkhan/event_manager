@@ -125,8 +125,9 @@
                                         {% if user.is_superuser %}
 
                             <a class="dropdown-item" href="{% url 'events:dashboard_event_list' %}">List Events</a>
-                            <a class="dropdown-item" href="{% url 'events:add_event' %}">Add New Event</a>
                             {%endif%}
+                                                        <a class="dropdown-item" href="{% url 'events:add_event' %}">Add New Event</a>
+
                         </div>
                     </div>
                                         {% if user.is_superuser %}
