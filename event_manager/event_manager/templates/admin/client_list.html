@@ -4,36 +4,28 @@
 <div class="container mt-5">
     <h2 class="mb-4">Client Management</h2>
 
-    <!-- Add New Client Section -->
+    <!-- Existing Clients Section -->
     <div class="form-section mb-5">
-        <h3 class="section-title mb-3">Add New Client</h3>
-        <form method="post" class="client-form">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit" class="btn btn-primary">Save</button>
-        </form>
-    </div>
-
-    <!-- Edit Client Section -->
-    <div class="form-section mb-5">
-        <h3 class="section-title mb-3">Edit Client Details</h3>
-        <form method="post" class="client-form">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit" class="btn btn-primary">Save</button>
-        </form>
-    </div>
-
-    <!-- Delete Client Section -->
-    <div class="form-section">
-        <h3 class="section-title mb-3">Delete Client</h3>
+        <h3 class="section-title mb-3">Existing Clients</h3>
         <div class="list-group">
             {% for client in clients %}
             <div class="list-group-item">
-                {{ client.name }} - <a href="{% url 'accounts:client_delete' client.id %}" class="delete-link">Delete</a>
+                {{ client.user.username }}
+                - <a href="{% url 'accounts:client_edit' client.id %}" class="edit-link">Edit</a>
+                - <a href="{% url 'accounts:client_delete' client.id %}" class="delete-link">Delete</a>
             </div>
             {% endfor %}
         </div>
+    </div>
+
+    <!-- Add New Client Section, moved to the bottom -->
+    <div class="form-section">
+        <h3 class="section-title mb-3">Add New Client</h3>
+        <form method="post" action="{% url 'accounts:client_add' %}" class="client-form">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-primary">Save</button>
+        </form>
     </div>
 </div>
 

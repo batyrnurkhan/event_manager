@@ -46,12 +46,17 @@ def signup(request):
 
 from django.views.generic import ListView, CreateView, DetailView
 from .models import Client, CustomUser
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 
-class ClientListView(ListView):
+class ClientListView(LoginRequiredMixin, ListView):
     model = Client
     template_name = 'admin/client_list.html'
     context_object_name = 'clients'
+
+    def get_queryset(self):
+        # Exclude the current user from the queryset
+        return Client.objects.exclude(user=self.request.user)
 
 class UserListView(ListView):
     model = CustomUser
@@ -79,7 +84,7 @@ class ClientUpdateView(UpdateView):
     model = Client
     form_class = ClientForm
     template_name = 'admin/client_form.html'
-    success_url = '/clients/'
+    success_url = '/accounts/clients/'
 
 
 from django.views.generic.edit import DeleteView

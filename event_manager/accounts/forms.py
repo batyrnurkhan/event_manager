@@ -31,7 +31,9 @@ class ClientForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(ClientForm, self).__init__(*args, **kwargs)
-        if self.instance.pk:  # If this is an update
+        self.fields['user'].queryset = CustomUser.objects.all()  # Customize if needed
+        # If updating, set phone field initial value
+        if self.instance.pk:
             self.fields['phone'].initial = self.instance.user.phone
 
     def save(self, commit=True):
