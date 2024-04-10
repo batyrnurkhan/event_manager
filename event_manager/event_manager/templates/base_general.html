@@ -137,6 +137,9 @@
                 <li class="nav-item px-2">
                     <a class="nav-link" href="/#contact-us-section" onclick="scrollToContactUs(event)">Contact us</a>
                 </li>
+                <li class="nav-item px-2 {% if page == "Budget Calculator" %}active{% endif %}">
+                    <a class="nav-link" href="{% url 'budget_calc' %}">Budget Calculator</a>
+                </li>
                 {% if user.is_authenticated %}
                     <li class="nav-item px-2">
                         <a href="{% url 'dashboard' %}" class="nav-link">Dashboard</a>
@@ -174,30 +177,32 @@
 {% block content %}
     <!-- Content will go here -->
 {% endblock %}
+{% block footer %}
+    <footer class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container mb-4">
+            <div class="row w-100">
+                <div class="col-6">
+                    <a class="navbar-brand" href="{% url 'home' %}">Event Platform</a>
+                    <h6>Social Media</h6>
+                    <a class="float-left pr-2" href="#"><img src="{% static "event_manager/img/Facebook.png" %}"/></a>
+                    <a class="float-left pr-2" href="#"><img src="{% static "event_manager/img/Tweeter.png" %}"/></a>
+                    <a class="float-left pr-2" href="#"><img src="{% static "event_manager/img/LinkedIn.png" %}"/></a>
+                    <a class="float-left pr-2" href="#"><img src="{% static "event_manager/img/Instagram.png" %}"/></a>
+                </div>
+                <div class="col-6">
+                    <h5>Quick links</h5>
+                    <a class="text-dark">About Us</a><br/>
+                    <a class="text-dark">Careers</a><br/>
 
-<footer class="navbar navbar-expand-lg navbar-light bg-light">
-    <div class="container mb-4">
-        <div class="row w-100">
-            <div class="col-6">
-                <a class="navbar-brand" href="{% url 'home' %}">Event Platform</a>
-                <h6>Social Media</h6>
-                <a class="float-left pr-2" href="#"><img src="{% static "event_manager/img/Facebook.png" %}"/></a>
-                <a class="float-left pr-2" href="#"><img src="{% static "event_manager/img/Tweeter.png" %}"/></a>
-                <a class="float-left pr-2" href="#"><img src="{% static "event_manager/img/LinkedIn.png" %}"/></a>
-                <a class="float-left pr-2" href="#"><img src="{% static "event_manager/img/Instagram.png" %}"/></a>
-            </div>
-            <div class="col-6">
-                <h5>Quick links</h5>
-                <a class="text-dark">About Us</a><br/>
-                <a class="text-dark">Careers</a><br/>
-
-                <a class="text-dark" href="/#contact-us-section" onclick="scrollToContactUs(event)">Contact Us</a><br/>
-                <a class="text-dark">Privacy Policy</a><br/>
-                <a class="text-dark">Terms & Conditions</a><br/>
+                    <a class="text-dark" href="/#contact-us-section" onclick="scrollToContactUs(event)">Contact
+                        Us</a><br/>
+                    <a class="text-dark">Privacy Policy</a><br/>
+                    <a class="text-dark">Terms & Conditions</a><br/>
+                </div>
             </div>
         </div>
-    </div>
-</footer>
+    </footer>
+{% endblock %}
 
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

@@ -175,7 +175,7 @@
         <div class="row my-5">
             {% for service in services %}
                 <div class="col-3">
-                    <a href="/service/{{ service.id }}">
+                    <a style="color: black" href="/service/{{ service.id }}">
                         <img class="w-100" style="aspect-ratio : 1 / 1; object-fit: cover;"
                              src="/media/{{ service.little_photo }}" alt="">
                         <h5>{{ service.service_name }}</h5>
@@ -325,3 +325,24 @@
         }
     </script>
 {% endblock content %}
+
+{% block footer %}
+    <footer class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container mb-4">
+            <div class="row w-100">
+                <div class="text-left col-4">
+                    <h5>Our Address</h5>
+                    <a class="text-dark">Turan, 45 <br/>Astana</a>
+                </div>
+                <div class="text-center col-4">
+                    <h5>For Inquiries</h5>
+                    <a class="text-dark">event@gmai.com</a>
+                </div>
+                <div class="text-right col-4">
+                    <h5>Contact Us</h5>
+                    <a class="text-dark">+7 707 456 77 77</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+{% endblock %}
