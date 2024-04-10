@@ -1,5 +1,6 @@
 from django.contrib import admin
 from .models import Event
+from event_manager.models import Service
 
 
 @admin.register(Event)
@@ -14,3 +15,6 @@ class EventAdmin(admin.ModelAdmin):
     def remaining_budget(self, obj):
         spent = obj.ticket_cost * obj.event_count_participants
         return obj.event_budget - spent
+
+
+admin.site.register(Service)

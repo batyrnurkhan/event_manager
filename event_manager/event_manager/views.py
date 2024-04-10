@@ -12,20 +12,33 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseForbidden
 from events.models import Event, Participant
 from django.db import transaction
+from event_manager.models import Service
 
 User = get_user_model()  # Get the custom user model
 
+
 def home(request):
-    return render(request, 'event_manager/home.html', {'page': "Home"})
+    services = Service.objects.all()[:4]
+    return render(request, 'event_manager/home.html', {'page': "Home", 'services': services})
+
+
+def service_view(request, pk):
+    service = Service.objects.get(pk=pk)
+    services = Service.objects.exclude(pk=pk)[:4]
+    return render(request, 'event_manager/service.html', {'page': "Service", 'services': services, 'service': service})
+
 
 def portfolio(request):
     return render(request, 'event_manager/portfolio.html', {'page': "Our Portfolio"})
 
+
 def about_us(request):
     return render(request, 'event_manager/about_us.html', {'page': "About Us"})
 
+
 from django.contrib.auth.views import LogoutView
 from django.urls import reverse_lazy
+
 
 class GetLogoutView(LogoutView):
     """
@@ -38,6 +51,7 @@ class GetLogoutView(LogoutView):
 
     # Optionally, you can specify a page to redirect to after logout.
     next_page = reverse_lazy('home')
+
 
 from events.models import Participant  # Make sure to import the Participant model
 
@@ -75,8 +89,8 @@ def dashboard(request):
     return render(request, 'admin/dashboard.html', context)
 
 
-
 from accounts.forms import UserSearchForm
+
 
 @login_required
 def event_admin_dashboard(request, slug):
@@ -113,6 +127,7 @@ def add_participant(request, event_slug, user_id):
 
     return redirect('event_admin_dashboard', slug=event_slug)
 
+
 @login_required
 def remove_participant(request, event_slug, user_id):
     if not request.user.is_staff:
@@ -132,7 +147,6 @@ def remove_participant(request, event_slug, user_id):
         event.save()
 
     return redirect('events:event_admin_dashboard', slug=event_slug)
-
 
 # from django.contrib.admin.views.decorators import staff_member_required
 # from django.shortcuts import render

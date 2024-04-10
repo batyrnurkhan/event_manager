@@ -1,213 +1,224 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>{% block title %}Event Platform{% endblock %}</title>
     {% block additional_style %}{% endblock %}
     <link
-      rel="stylesheet"
-      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+            rel="stylesheet"
+            href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
     />
     <link
-      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap"
-      rel="stylesheet"
+            href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap"
+            rel="stylesheet"
     />
-    <link rel="stylesheet" href="{% static "owl_carousel/assets/owl.carousel.min.css"%}">
+    <link rel="stylesheet" href="{% static "owl_carousel/assets/owl.carousel.min.css" %}">
     <link rel="stylesheet" href="{% static "owl_carousel/assets/owl.theme.default.min.css" %}">
 
     <style>
-      body,
-      h1,
-      h2,
-      h3,
-      h4,
-      h5,
-      h6,
-      .navbar-brand,
-      .nav-link {
-        font-family: "DM Sans", sans-serif;
-      }
-      :root {
-        --primary-color: #3772ff;
-        --secondary-color: #f5f5f7;
-        --dark-color: #333333;
-        --light-color: #f5f5f5;
-        --success-color: #34a853;
-        --warning-color: #fbbc05;
-        --error-color: #ea4335;
-        --white: #ffffff;
-        --black: #000000;
-        --blueish: #E2EDFF;
-      }
-      .navbar {
-        background-color: var(--white);
-        border-bottom: 2px solid var(--light-color);
-        padding: 0.5rem 1rem;
-      }
-      .navbar-brand,
-      .nav-link {
-        color: var(--dark-color) !important;
-      }
-      .nav-link:hover {
-        color: var(--primary-color) !important;
-      }
-      .btn-primary {
-        background-color: var(--primary-color);
-        border-color: var(--primary-color);
-      }
-      .btn-primary:hover,
-      .btn-primary:focus {
-        background-color: var(--dark-color);
-        border-color: var(--dark-color);
-      }
-      .container {
-        padding-top: 2rem;
-      }
-      /* Additional Styling */
-      .container-fluid {
-        padding: 2rem;
-      }
-      .footer {
-        text-align: center;
-        padding: 1rem 0;
-        background-color: var(--secondary-color);
-        margin-top: 2rem;
-        font-size: 0.9rem;
-        color: var(--dark-color);
-      }
-      /* Styling for the Tech Support Button if needed */
-      .tech-support-btn {
-        position: fixed;
-        right: 20px;
-        bottom: 20px;
-        font-size: 1rem;
-        z-index: 1050;
-      }
-      .nav-item.active {
-        color: black;
-        font-weight: 600;
-        border-bottom: 3px black solid;
-      }
+        body,
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6,
+        .navbar-brand,
+        .nav-link {
+            font-family: "DM Sans", sans-serif;
+        }
+
+        :root {
+            --primary-color: #3772ff;
+            --secondary-color: #f5f5f7;
+            --dark-color: #333333;
+            --light-color: #f5f5f5;
+            --success-color: #34a853;
+            --warning-color: #fbbc05;
+            --error-color: #ea4335;
+            --white: #ffffff;
+            --black: #000000;
+            --blueish: #E2EDFF;
+        }
+
+        .navbar {
+            background-color: var(--white);
+            border-bottom: 2px solid var(--light-color);
+            padding: 0.5rem 1rem;
+        }
+
+        .navbar-brand,
+        .nav-link {
+            color: var(--dark-color) !important;
+        }
+
+        .nav-link:hover {
+            color: var(--primary-color) !important;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+
+        .btn-primary:hover,
+        .btn-primary:focus {
+            background-color: var(--dark-color);
+            border-color: var(--dark-color);
+        }
+
+        .container {
+            padding-top: 2rem;
+        }
+
+        /* Additional Styling */
+        .container-fluid {
+            padding: 2rem;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 1rem 0;
+            background-color: var(--secondary-color);
+            margin-top: 2rem;
+            font-size: 0.9rem;
+            color: var(--dark-color);
+        }
+
+        /* Styling for the Tech Support Button if needed */
+        .tech-support-btn {
+            position: fixed;
+            right: 20px;
+            bottom: 20px;
+            font-size: 1rem;
+            z-index: 1050;
+        }
+
+        .nav-item.active {
+            color: black;
+            font-weight: 600;
+            border-bottom: 3px black solid;
+        }
     </style>
-  </head>
-  <body>
+</head>
+<body>
 
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <nav class="navbar navbar-expand-lg navbar-light pb-0">
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<nav class="navbar navbar-expand-lg navbar-light pb-0">
     <div class="container">
-      <a class="navbar-brand" href="{% url 'home' %}">Event Platform</a>
-      <button
-        class="navbar-toggler"
-        type="button"
-        data-toggle="collapse"
-        data-target="#navbarNav"
-        aria-controls="navbarNav"
-        aria-expanded="false"
-        aria-label="Toggle navigation"
-      >
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav mx-auto">
-          <li class="nav-item px-2 {% if page == "Home" %}active{% endif %}">
-            <a class="nav-link" href="{% url 'home' %}">Home</a>
-          </li>
-          <li class="nav-item px-2">
-            <a class="nav-link" href="#">Services</a>
-          </li>
-          <li class="nav-item px-2 {% if page == "Our Portfolio" %}active{% endif %}">
-            <a class="nav-link" href="{% url 'portfolio' %}">Portfolio</a>
-          </li>
-          <li class="nav-item px-2 {% if page == "About Us" %}active{% endif %}">
-            <a class="nav-link" href="{% url 'about_us' %}">About us</a>
-          </li>
-          <li class="nav-item px-2">
-    <a class="nav-link" href="/#contact-us-section" onclick="scrollToContactUs(event)">Contact us</a>
-</li>
-          {% if user.is_authenticated %}
-          <li class="nav-item px-2">
-            <a href="{% url 'dashboard' %}" class="nav-link">Dashboard</a>
-          </li>
-          {% endif %}
-        </ul>
-        <ul class="navbar-nav ml-auto">
-          {% if user.is_authenticated %}
-          <li class="nav-item">
-            <form action="{% url 'logout' %}" method="post" class="form-inline">
-  {% csrf_token %}
-  <button type="submit" class="btn btn-primary">Sign out</button>
-</form>
-          </li>
-          {% else %}
-          <li class="nav-item">
-            <a href="{% url 'accounts:signin' %}" class="btn btn-primary">Sign in</a>
-          </li>
-          {% endif %} {% if user.is_authenticated %}
-          <li class="nav-item">
-            <a
-              href="{% url 'accounts:ensure_chat_rooms' %}"
-              class="btn btn-primary tech-support-btn"
-              >
-              Tech Support
-            </a>
-          </li>
-          {% endif %}
-        </ul>
-      </div>
-    </div>
-    </nav>
-
-
-    {% block content %}
-    <!-- Content will go here -->
-    {% endblock %}
-
-    <footer class="navbar navbar-expand-lg navbar-light bg-light">
-      <div class="container mb-4">
-        <div class="row w-100">
-          <div class="col-6">
-            <a class="navbar-brand" href="{% url 'home' %}">Event Platform</a>
-            <h6>Social Media</h6>
-            <a class="float-left pr-2" href="#"><img src="{% static "event_manager/img/Facebook.png" %}" /></a>
-            <a class="float-left pr-2" href="#"><img src="{% static "event_manager/img/Tweeter.png" %}" /></a>
-            <a class="float-left pr-2" href="#"><img src="{% static "event_manager/img/LinkedIn.png" %}" /></a>
-            <a class="float-left pr-2" href="#"><img src="{% static "event_manager/img/Instagram.png" %}" /></a>
-          </div>
-          <div class="col-6">
-            <h5>Quick links</h5>
-            <a class="text-dark">About Us</a><br/>
-            <a class="text-dark">Careers</a><br/>
-
-            <a class="text-dark" href="/#contact-us-section" onclick="scrollToContactUs(event)">Contact Us</a><br/>
-            <a class="text-dark">Privacy Policy</a><br/>
-            <a class="text-dark">Terms & Conditions</a><br/>
-          </div>
+        <a class="navbar-brand" href="{% url 'home' %}">Event Platform</a>
+        <button
+                class="navbar-toggler"
+                type="button"
+                data-toggle="collapse"
+                data-target="#navbarNav"
+                aria-controls="navbarNav"
+                aria-expanded="false"
+                aria-label="Toggle navigation"
+        >
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav mx-auto">
+                <li class="nav-item px-2 {% if page == "Home" %}active{% endif %}">
+                    <a class="nav-link" href="{% url 'home' %}">Home</a>
+                </li>
+                <li class="nav-item px-2">
+                    <a class="nav-link" href="#">Services</a>
+                </li>
+                <li class="nav-item px-2 {% if page == "Our Portfolio" %}active{% endif %}">
+                    <a class="nav-link" href="{% url 'portfolio' %}">Portfolio</a>
+                </li>
+                <li class="nav-item px-2 {% if page == "About Us" %}active{% endif %}">
+                    <a class="nav-link" href="{% url 'about_us' %}">About us</a>
+                </li>
+                <li class="nav-item px-2">
+                    <a class="nav-link" href="/#contact-us-section" onclick="scrollToContactUs(event)">Contact us</a>
+                </li>
+                {% if user.is_authenticated %}
+                    <li class="nav-item px-2">
+                        <a href="{% url 'dashboard' %}" class="nav-link">Dashboard</a>
+                    </li>
+                {% endif %}
+            </ul>
+            <ul class="navbar-nav ml-auto">
+                {% if user.is_authenticated %}
+                    <li class="nav-item">
+                        <form action="{% url 'logout' %}" method="post" class="form-inline">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-primary">Sign out</button>
+                        </form>
+                    </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a href="{% url 'accounts:signin' %}" class="btn btn-primary">Sign in</a>
+                    </li>
+                {% endif %} {% if user.is_authenticated %}
+                <li class="nav-item">
+                    <a
+                            href="{% url 'accounts:ensure_chat_rooms' %}"
+                            class="btn btn-primary tech-support-btn"
+                    >
+                        Tech Support
+                    </a>
+                </li>
+            {% endif %}
+            </ul>
         </div>
-      </div>
-    </footer>
+    </div>
+</nav>
 
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script src="{% static "owl_carousel/owl.carousel.min.js" %}"></script>
-  <script>
+
+{% block content %}
+    <!-- Content will go here -->
+{% endblock %}
+
+<footer class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container mb-4">
+        <div class="row w-100">
+            <div class="col-6">
+                <a class="navbar-brand" href="{% url 'home' %}">Event Platform</a>
+                <h6>Social Media</h6>
+                <a class="float-left pr-2" href="#"><img src="{% static "event_manager/img/Facebook.png" %}"/></a>
+                <a class="float-left pr-2" href="#"><img src="{% static "event_manager/img/Tweeter.png" %}"/></a>
+                <a class="float-left pr-2" href="#"><img src="{% static "event_manager/img/LinkedIn.png" %}"/></a>
+                <a class="float-left pr-2" href="#"><img src="{% static "event_manager/img/Instagram.png" %}"/></a>
+            </div>
+            <div class="col-6">
+                <h5>Quick links</h5>
+                <a class="text-dark">About Us</a><br/>
+                <a class="text-dark">Careers</a><br/>
+
+                <a class="text-dark" href="/#contact-us-section" onclick="scrollToContactUs(event)">Contact Us</a><br/>
+                <a class="text-dark">Privacy Policy</a><br/>
+                <a class="text-dark">Terms & Conditions</a><br/>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="{% static "owl_carousel/owl.carousel.min.js" %}"></script>
+<script>
     function scrollToContactUs(event) {
-    // Prevent the default anchor link behavior
-    event.preventDefault();
+        // Prevent the default anchor link behavior
+        event.preventDefault();
 
-    // Check if the #contact-us-section exists on this page
-    const contactUsSection = document.getElementById('contact-us-section');
-    if (contactUsSection) {
-        // If the section exists on the current page, smooth scroll to it
-        contactUsSection.scrollIntoView({ behavior: 'smooth' });
-    } else {
-        // If it doesn't exist, redirect to the home page (or specific page) and then scroll to the section
-        // Adjust '/home.html' to the correct path if necessary
-        window.location.href = '/#contact-us-section';
+        // Check if the #contact-us-section exists on this page
+        const contactUsSection = document.getElementById('contact-us-section');
+        if (contactUsSection) {
+            // If the section exists on the current page, smooth scroll to it
+            contactUsSection.scrollIntoView({behavior: 'smooth'});
+        } else {
+            // If it doesn't exist, redirect to the home page (or specific page) and then scroll to the section
+            // Adjust '/home.html' to the correct path if necessary
+            window.location.href = '/#contact-us-section';
+        }
     }
-}
 
-  </script>
-  </body>
+</script>
+</body>
 </html>
