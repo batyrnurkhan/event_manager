@@ -1,32 +1,32 @@
 {% extends 'base_general.html' %} {% load static %}
-<br />
 {% block title %}Contact{% endblock %}
-<br />
 {% block additional_style %} {% endblock additional_style %} {% block content %}
-{% comment %}
+    <div class="container-fluid py-5"
+         style="background-image: url('{% static "event_manager/img/contact.jpg" %}'); background-size: cover; background-position: center; height: 60vh">
+        <h1 class="my-5 text-center" style="color: white;font-size: 64px;" >Contact Us</h1>
+    </div>
+    <div class="container mb-5">
+        <h4>Contact Us</h4>
+        <form action="{% url 'accounts:contact' %}" method="post">
             {% csrf_token %}
 
-<div class="container mb-5">
-    <h4>Contact Us</h4>
-    <form action="{% url 'accounts:contact' %}" method="post">
-                    {% csrf_token %}
-
-        <div class="form-group">
-          <label for="name">Name</label>
-          <input type="text" class="form-control" id="name" name="name">
-        </div>
-        <div class="form-group">
-          <label for="email">Email</label>
-<input type="email" class="form-control" id="email" name="email">
-        </div>
-        <div class="form-group">
-          <label for="phone">Phone number</label>
-<input type="text" class="form-control" id="phone" name="phone_number">
-        </div>
-        <div class="form-group">
-          <label for="message">Message</label>
-<textarea class="form-control" id="message" rows="5" name="message"></textarea>
-        </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
-    </form>
-</div>
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" class="form-control" id="name" name="name">
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" class="form-control" id="email" name="email">
+            </div>
+            <div class="form-group">
+                <label for="phone">Phone number</label>
+                <input type="text" class="form-control" id="phone" name="phone_number">
+            </div>
+            <div class="form-group">
+                <label for="message">Message</label>
+                <textarea class="form-control" id="message" rows="5" name="message"></textarea>
+            </div>
+            <button type="submit" class="btn btn-light">Submit</button>
+        </form>
+    </div>
+{% endblock %}

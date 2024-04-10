@@ -16,7 +16,8 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.contrib.auth.views import LogoutView
-from .views import home, portfolio, about_us, GetLogoutView, dashboard, event_admin_dashboard, remove_participant, add_participant, service_view, budget_calc
+from .views import (home, portfolio, about_us, GetLogoutView, dashboard, event_admin_dashboard, remove_participant,
+                    add_participant, service_view, budget_calc, contact)
 from django.conf import settings
 from django.conf.urls.static import static
 from django.urls import path, include
@@ -42,6 +43,7 @@ urlpatterns = [
     path('service/<int:pk>', service_view, name='home'),
     path('portfolio/', portfolio, name='portfolio'),
     path('about_us/', about_us, name='about_us'),
+    path('contact/', contact, name='contact'),
     path('budget_calc/', budget_calc, name='budget_calc'),
     path('dashboard/', dashboard, name='dashboard'),
     path('dashboard/<slug:slug>/', event_admin_dashboard, name='event_admin_dashboard'),

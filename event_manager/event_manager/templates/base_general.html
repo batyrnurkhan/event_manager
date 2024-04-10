@@ -134,8 +134,8 @@
                 <li class="nav-item px-2 {% if page == "About Us" %}active{% endif %}">
                     <a class="nav-link" href="{% url 'about_us' %}">About us</a>
                 </li>
-                <li class="nav-item px-2">
-                    <a class="nav-link" href="/#contact-us-section" onclick="scrollToContactUs(event)">Contact us</a>
+                <li class="nav-item px-2 {% if page == "Contact Us" %}active{% endif %}">
+                    <a class="nav-link" href="{% url 'contact' %}">Contact us</a>
                 </li>
                 <li class="nav-item px-2 {% if page == "Budget Calculator" %}active{% endif %}">
                     <a class="nav-link" href="{% url 'budget_calc' %}">Budget Calculator</a>
@@ -178,6 +178,7 @@
     <!-- Content will go here -->
 {% endblock %}
 {% block footer %}
+    {% comment %}
     <footer class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container mb-4">
             <div class="row w-100">
@@ -198,6 +199,25 @@
                         Us</a><br/>
                     <a class="text-dark">Privacy Policy</a><br/>
                     <a class="text-dark">Terms & Conditions</a><br/>
+                </div>
+            </div>
+        </div>
+    </footer>
+    {% endcomment %}
+    <footer class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container mb-4">
+            <div class="row w-100">
+                <div class="text-left col-4">
+                    <h5>Our Address</h5>
+                    <a class="text-dark">Turan, 45 <br/>Astana</a>
+                </div>
+                <div class="text-center col-4">
+                    <h5>For Inquiries</h5>
+                    <a class="text-dark">event@gmai.com</a>
+                </div>
+                <div class="text-right col-4">
+                    <h5>Contact Us</h5>
+                    <a class="text-dark">+7 707 456 77 77</a>
                 </div>
             </div>
         </div>

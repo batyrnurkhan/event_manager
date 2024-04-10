@@ -32,6 +32,10 @@ def portfolio(request):
     return render(request, 'event_manager/portfolio.html', {'page': "Our Portfolio"})
 
 
+def contact(request):
+    return render(request, 'accounts/contact.html', {'page': "Contact Us"})
+
+
 def budget_calc(request):
     return render(request, 'event_manager/budget_calculator.html', {'page': "Budget Calculator"})
 
